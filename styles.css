@@ -81,14 +81,18 @@ body.dark-theme {
 }
 
 @keyframes float {
-    0%, 100% { 
-        transform: translate(0, 0) scale(1); 
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
     }
-    33% { 
-        transform: translate(30px, -30px) scale(1.1); 
+
+    33% {
+        transform: translate(30px, -30px) scale(1.1);
     }
-    66% { 
-        transform: translate(-20px, 20px) scale(0.9); 
+
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
     }
 }
 
@@ -262,8 +266,13 @@ body.dark-theme {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes scaleIn {
@@ -271,6 +280,7 @@ body.dark-theme {
         opacity: 0;
         transform: scale(0.9) translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -437,16 +447,16 @@ body.dark-theme {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.toggle-switch input:checked + .toggle-slider {
+.toggle-switch input:checked+.toggle-slider {
     background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
     box-shadow: 0 0 20px rgba(var(--accent), 0.5);
 }
 
-.toggle-switch input:checked + .toggle-slider:before {
+.toggle-switch input:checked+.toggle-slider:before {
     transform: translateX(26px);
 }
 
-.toggle-switch input:disabled + .toggle-slider {
+.toggle-switch input:disabled+.toggle-slider {
     cursor: not-allowed;
     opacity: 0.5;
 }
@@ -575,9 +585,17 @@ body.dark-theme {
     animation: fadeInUp 0.6s ease-out backwards;
 }
 
-.lesson-card:nth-child(1) { animation-delay: 0s; }
-.lesson-card:nth-child(2) { animation-delay: 0.1s; }
-.lesson-card:nth-child(3) { animation-delay: 0.2s; }
+.lesson-card:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.lesson-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.lesson-card:nth-child(3) {
+    animation-delay: 0.2s;
+}
 
 .light-theme .lesson-card {
     background: linear-gradient(135deg, rgba(230, 236, 245, 0.5), rgba(230, 236, 245, 0.3));
@@ -611,8 +629,13 @@ body.dark-theme {
 }
 
 @keyframes shimmer {
-    0% { transform: rotate(45deg) translateX(-100%); }
-    100% { transform: rotate(45deg) translateX(100%); }
+    0% {
+        transform: rotate(45deg) translateX(-100%);
+    }
+
+    100% {
+        transform: rotate(45deg) translateX(100%);
+    }
 }
 
 /* Lesson Icon */
@@ -749,6 +772,7 @@ body.dark-theme {
         opacity: 0;
         transform: translateY(60px) scale(0.95);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -760,6 +784,7 @@ body.dark-theme {
         opacity: 0;
         transform: translateX(-50px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -771,6 +796,7 @@ body.dark-theme {
         opacity: 0;
         transform: translateX(50px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -778,20 +804,24 @@ body.dark-theme {
 }
 
 @keyframes pulse {
-    0%, 100% { 
-        transform: scale(1); 
+
+    0%,
+    100% {
+        transform: scale(1);
     }
-    50% { 
-        transform: scale(1.05); 
+
+    50% {
+        transform: scale(1.05);
     }
 }
 
 @keyframes rotate {
-    from { 
-        transform: rotate(0deg); 
+    from {
+        transform: rotate(0deg);
     }
-    to { 
-        transform: rotate(360deg); 
+
+    to {
+        transform: rotate(360deg);
     }
 }
 
@@ -820,55 +850,531 @@ body.dark-theme {
     stroke: #543E64 !important;
 }
 
+
+/* ================================
+   ISLAND HOPPING STYLES
+================================ */
+.island-hopping-container {
+    position: relative;
+    width: 100%;
+    min-height: 200vh;
+    padding: 4rem 0;
+    overflow: hidden;
+}
+
+/* Sky Background */
+.sky-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40vh;
+    background: linear-gradient(180deg, 
+        rgba(135, 206, 250, 0.3) 0%, 
+        rgba(135, 206, 250, 0.1) 50%,
+        transparent 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+.cloud {
+    position: absolute;
+    width: 120px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    animation: floatCloud 30s ease-in-out infinite;
+}
+
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+}
+
+.cloud::before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 10px;
+}
+
+.cloud::after {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    right: 10px;
+}
+
+.cloud-1 {
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.cloud-2 {
+    top: 20%;
+    right: 15%;
+    animation-delay: -10s;
+}
+
+.cloud-3 {
+    top: 5%;
+    left: 60%;
+    animation-delay: -20s;
+}
+
+@keyframes floatCloud {
+    0%, 100% {
+        transform: translateX(0) translateY(0);
+    }
+    50% {
+        transform: translateX(50px) translateY(-20px);
+    }
+}
+
+/* Islands Path */
+.islands-path {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    z-index: 10;
+}
+
+/* Island Wrapper */
+.island-wrapper {
+    position: relative;
+    margin-bottom: 8rem;
+    animation: fadeInIsland 0.8s ease-out backwards;
+    animation-delay: var(--delay);
+}
+
+.island-wrapper:nth-child(odd) {
+    margin-left: 0;
+    margin-right: 20%;
+}
+
+.island-wrapper:nth-child(even) {
+    margin-left: 20%;
+    margin-right: 0;
+}
+
+@keyframes fadeInIsland {
+    from {
+        opacity: 0;
+        transform: translateY(80px) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Bridge Line */
+.bridge-line {
+    position: absolute;
+    top: -4rem;
+    left: 50%;
+    width: 4px;
+    height: 4rem;
+    background: linear-gradient(180deg, 
+        transparent 0%,
+        var(--accent) 50%,
+        var(--accent-secondary) 100%
+    );
+    transform: translateX(-50%);
+    opacity: 0.6;
+}
+
+.island-wrapper:first-child .bridge-line {
+    display: none;
+}
+
+.light-theme .bridge-line {
+    background: linear-gradient(180deg, 
+        transparent 0%,
+        #543E64 50%,
+        #C6866E 100%
+    );
+}
+
+.dark-theme .bridge-line {
+    background: linear-gradient(180deg, 
+        transparent 0%,
+        #E8DDEB 50%,
+        #77679A 100%
+    );
+}
+
+/* Island Container */
+.island-container {
+    position: relative;
+    perspective: 1000px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Island Base (3D shadow) */
+.island-base {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 30px;
+    background: radial-gradient(ellipse at center, 
+        rgba(0, 0, 0, 0.2) 0%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    filter: blur(10px);
+    transition: all 0.4s ease;
+}
+
+/* Island Card */
+.island-card {
+    position: relative;
+    background: var(--bg-card);
+    border-radius: 32px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 3px solid transparent;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    transform-style: preserve-3d;
+    overflow: hidden;
+}
+
+.light-theme .island-card {
+    background: rgba(233, 224, 210, 0.95);
+    backdrop-filter: blur(20px);
+}
+
+.dark-theme .island-card {
+    background: rgba(31, 56, 85, 0.95);
+    backdrop-filter: blur(20px);
+}
+
+/* Hover effect */
+.island-wrapper:hover .island-container {
+    transform: translateY(-15px);
+}
+
+.island-wrapper:hover .island-base {
+    opacity: 0.5;
+    transform: translateX(-50%) scale(1.1);
+}
+
+.island-wrapper:hover .island-card {
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+}
+
+/* Island Glow */
+.island-glow {
+    position: absolute;
+    inset: -30px;
+    background: radial-gradient(circle, currentColor, transparent);
+    opacity: 0;
+    filter: blur(30px);
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.island-wrapper:hover .island-glow {
+    opacity: 0.5;
+}
+
+/* Island Icon */
+.island-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.island-wrapper:hover .island-icon {
+    transform: scale(1.15) rotate(-5deg);
+}
+
+/* Island Number */
+.island-number {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(var(--accent), 0.2);
+    border: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--accent);
+}
+
+/* Island Text */
+.island-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.island-subtitle {
+    font-size: 1rem;
+    opacity: 0.7;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+}
+
+/* Progress Ring */
+.island-progress {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.progress-ring {
+    position: relative;
+    width: 50px;
+    height: 50px;
+}
+
+.progress-ring svg {
+    transform: rotate(-90deg);
+}
+
+.ring-bg {
+    fill: none;
+    stroke: rgba(var(--border), 0.3);
+    stroke-width: 4;
+}
+
+.ring-fill {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 126;
+    stroke-dashoffset: calc(126 - (126 * var(--progress) / 100));
+    transition: stroke-dashoffset 0.6s ease;
+}
+
+.progress-percent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Island Button */
+.island-button {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: white;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.island-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.island-button:active {
+    transform: translateY(0);
+}
+
+/* Water Background */
+.water-background {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30vh;
+    background: linear-gradient(180deg, 
+        transparent 0%,
+        rgba(100, 149, 237, 0.2) 50%,
+        rgba(65, 105, 225, 0.3) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: 100px;
+    background: rgba(100, 149, 237, 0.2);
+    border-radius: 50%;
+    animation: wave 8s ease-in-out infinite;
+}
+
+.wave-1 {
+    left: -50%;
+    animation-delay: 0s;
+}
+
+.wave-2 {
+    left: -50%;
+    animation-delay: -4s;
+    opacity: 0.5;
+}
+
+@keyframes wave {
+    0%, 100% {
+        transform: translateX(0) translateY(0);
+    }
+    50% {
+        transform: translateX(-25%) translateY(-20px);
+    }
+}
+
+/* Completed State */
+.island-wrapper.completed .island-card {
+    border-color: #6EC463;
+}
+
+.island-wrapper.completed .island-number {
+    background: #6EC463;
+    color: white;
+    border-color: #6EC463;
+}
+
+.island-wrapper.completed .island-number::after {
+    content: '✓';
+}
+
+/* Locked State */
+.island-wrapper.locked {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.island-wrapper.locked .island-card {
+    filter: grayscale(0.5);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .island-hopping-container {
+        min-height: 150vh;
+    }
+    
+    .islands-path {
+        padding: 1rem;
+    }
+    
+    .island-wrapper {
+        margin-bottom: 5rem;
+    }
+    
+    .island-wrapper:nth-child(odd),
+    .island-wrapper:nth-child(even) {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    .island-card {
+        padding: 1.5rem;
+    }
+    
+    .island-icon {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .island-icon svg {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .island-title {
+        font-size: 1.4rem;
+    }
+    
+    .island-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .cloud {
+        display: none;
+    }
+}
+
+
 /* ================================
    RESPONSIVE - MOBILE OPTIMIZED
 ================================ */
 @media (max-width: 768px) {
+
     /* Header - Keep it beautiful */
     .header {
         padding: 1rem 1.2rem;
         backdrop-filter: blur(20px) saturate(180%);
     }
-    
+
     .logo-text {
         font-size: 1.5rem;
     }
-    
+
     .theme-toggle {
         width: 52px;
         height: 52px;
     }
-    
+
     /* Main Content - Keep parallax smooth */
     .main-content {
         padding: 2.5rem 1.2rem 4rem;
         will-change: transform;
     }
-    
+
     .module {
         margin-bottom: 3rem;
     }
-    
+
     .module-card {
         padding: 2rem;
         border-radius: 28px;
         backdrop-filter: blur(20px);
     }
-    
+
     .module-title {
         font-size: 1.7rem;
     }
-    
+
     .module-subtitle {
         font-size: 1.05rem;
     }
-    
+
     /* Lessons Grid - Single Column but beautiful */
     .lessons-grid {
         grid-template-columns: 1fr;
         gap: 1.8rem;
     }
-    
+
     /* Lesson Cards - Touch optimized but still beautiful */
     .lesson-card {
         padding: 2.2rem;
@@ -878,27 +1384,27 @@ body.dark-theme {
         -webkit-tap-highlight-color: transparent;
         user-select: none;
     }
-    
+
     .lesson-card:active {
         transform: scale(0.97) !important;
         transition: transform 0.1s ease !important;
     }
-    
+
     /* Keep icons beautiful */
     .lesson-icon {
         width: 75px;
         height: 75px;
         margin-bottom: 1.8rem;
     }
-    
+
     .lesson-title {
         font-size: 1.4rem;
     }
-    
+
     .lesson-subtitle {
         font-size: 1.05rem;
     }
-    
+
     /* Touch-friendly buttons */
     .start-btn {
         padding: 1.3rem;
@@ -907,17 +1413,17 @@ body.dark-theme {
         /* Improve touch response */
         touch-action: manipulation;
     }
-    
+
     /* Keep some particles for atmosphere */
     .particle {
         opacity: 0.3;
     }
-    
+
     /* Keep animations smooth on mobile */
     .decorative-gradient {
         animation: rotate 30s linear infinite;
     }
-    
+
     /* Optimize scroll performance */
     .main-container {
         -webkit-overflow-scrolling: touch;
@@ -929,57 +1435,57 @@ body.dark-theme {
     .header {
         padding: 0.9rem 1rem;
     }
-    
+
     .logo {
         gap: 0.8rem;
     }
-    
+
     .logo-icon-wrapper {
         padding: 0.55rem;
         border-radius: 14px;
     }
-    
+
     .logo-icon {
         width: 24px;
         height: 24px;
     }
-    
+
     .logo-text {
         font-size: 1.3rem;
     }
-    
+
     .theme-toggle {
         width: 48px;
         height: 48px;
     }
-    
+
     .main-content {
         padding: 2rem 1rem 3rem;
     }
-    
+
     .module-card {
         padding: 1.6rem;
         border-radius: 24px;
     }
-    
+
     .module-title {
         font-size: 1.5rem;
     }
-    
+
     .lesson-card {
         padding: 1.8rem;
         border-radius: 22px;
     }
-    
+
     .lesson-icon {
         width: 68px;
         height: 68px;
     }
-    
+
     .lesson-title {
         font-size: 1.3rem;
     }
-    
+
     .start-btn {
         padding: 1.15rem;
         font-size: 1.05rem;

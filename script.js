@@ -35,96 +35,114 @@ const gyroToggleSwitch = document.getElementById('gyroToggleSwitch');
 const animationsToggleSwitch = document.getElementById('animationsToggleSwitch');
 const particlesToggleSwitch = document.getElementById('particlesToggleSwitch');
 
-// Initialize settings UI
-themeToggleSwitch.checked = settings.theme === 'dark';
-gyroToggleSwitch.checked = settings.gyroscope;
-animationsToggleSwitch.checked = settings.animations;
-particlesToggleSwitch.checked = settings.particles;
+// Initialize settings UI (with safety checks)
+if (themeToggleSwitch) themeToggleSwitch.checked = settings.theme === 'dark';
+if (gyroToggleSwitch) gyroToggleSwitch.checked = settings.gyroscope;
+if (animationsToggleSwitch) animationsToggleSwitch.checked = settings.animations;
+if (particlesToggleSwitch) particlesToggleSwitch.checked = settings.particles;
 
 // Apply initial theme
 document.body.className = `${settings.theme}-theme`;
 
 // Update gyro description for desktop
 if (!isMobile) {
-    document.getElementById('gyroDescription').textContent = '⚠️ Доступно только на мобильных устройствах';
+    const gyroDesc = document.getElementById('gyroDescription');
+    if (gyroDesc) {
+        gyroDesc.textContent = '⚠️ Доступно только на мобильных устройствах';
+    }
 }
 
 // Open settings
-settingsToggle.addEventListener('click', () => {
-    settingsModal.classList.remove('hidden');
-    if (isMobile && navigator.vibrate) {
-        navigator.vibrate(10);
-    }
-});
+if (settingsToggle) {
+    settingsToggle.addEventListener('click', () => {
+        if (settingsModal) {
+            settingsModal.classList.remove('hidden');
+        }
+        if (isMobile && navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+    });
+}
 
 // Close settings
 function closeSettings() {
-    settingsModal.classList.add('hidden');
+    if (settingsModal) {
+        settingsModal.classList.add('hidden');
+    }
 }
 
-settingsClose.addEventListener('click', closeSettings);
-settingsOverlay.addEventListener('click', closeSettings);
+if (settingsClose) settingsClose.addEventListener('click', closeSettings);
+if (settingsOverlay) settingsOverlay.addEventListener('click', closeSettings);
 
 // Theme toggle
-themeToggleSwitch.addEventListener('change', (e) => {
-    settings.theme = e.target.checked ? 'dark' : 'light';
-    document.body.className = `${settings.theme}-theme`;
-    saveSettings();
-    
-    if (isMobile && navigator.vibrate) {
-        navigator.vibrate(10);
-    }
-});
+if (themeToggleSwitch) {
+    themeToggleSwitch.addEventListener('change', (e) => {
+        settings.theme = e.target.checked ? 'dark' : 'light';
+        document.body.className = `${settings.theme}-theme`;
+        saveSettings();
+        
+        if (isMobile && navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+    });
+}
 
 // Gyroscope toggle
-gyroToggleSwitch.addEventListener('change', (e) => {
-    settings.gyroscope = e.target.checked;
-    saveSettings();
-    
-    if (!isMobile) {
-        // Show message on desktop
-        e.target.checked = false;
-        settings.gyroscope = false;
-        alert('⚠️ Гироскоп доступен только на мобильных устройствах');
-    }
-    
-    if (isMobile && navigator.vibrate) {
-        navigator.vibrate(10);
-    }
-});
+if (gyroToggleSwitch) {
+    gyroToggleSwitch.addEventListener('change', (e) => {
+        settings.gyroscope = e.target.checked;
+        saveSettings();
+        
+        if (!isMobile) {
+            e.target.checked = false;
+            settings.gyroscope = false;
+            alert('⚠️ Гироскоп доступен только на мобильных устройствах');
+        }
+        
+        if (isMobile && navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+    });
+}
 
 // Animations toggle
-animationsToggleSwitch.addEventListener('change', (e) => {
-    settings.animations = e.target.checked;
-    saveSettings();
-    
-    if (!settings.animations) {
-        document.body.classList.add('no-animations');
-    } else {
-        document.body.classList.remove('no-animations');
-    }
-    
-    if (isMobile && navigator.vibrate) {
-        navigator.vibrate(10);
-    }
-});
+if (animationsToggleSwitch) {
+    animationsToggleSwitch.addEventListener('change', (e) => {
+        settings.animations = e.target.checked;
+        saveSettings();
+        
+        if (!settings.animations) {
+            document.body.classList.add('no-animations');
+        } else {
+            document.body.classList.remove('no-animations');
+        }
+        
+        if (isMobile && navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+    });
+}
 
 // Particles toggle
-particlesToggleSwitch.addEventListener('change', (e) => {
-    settings.particles = e.target.checked;
-    saveSettings();
-    
-    const particlesContainer = document.getElementById('particlesContainer');
-    if (settings.particles) {
-        particlesContainer.style.display = 'block';
-    } else {
-        particlesContainer.style.display = 'none';
-    }
-    
-    if (isMobile && navigator.vibrate) {
-        navigator.vibrate(10);
-    }
-});
+if (particlesToggleSwitch) {
+    particlesToggleSwitch.addEventListener('change', (e) => {
+        settings.particles = e.target.checked;
+        saveSettings();
+        
+        const particlesContainer = document.getElementById('particlesContainer');
+        if (particlesContainer) {
+            if (settings.particles) {
+                particlesContainer.style.display = 'block';
+            } else {
+                particlesContainer.style.display = 'none';
+            }
+        }
+        
+        if (isMobile && navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+    });
+}
 
 // Apply initial settings
 if (!settings.animations) {
@@ -132,7 +150,10 @@ if (!settings.animations) {
 }
 
 if (!settings.particles) {
-    document.getElementById('particlesContainer').style.display = 'none';
+    const particlesContainer = document.getElementById('particlesContainer');
+    if (particlesContainer) {
+        particlesContainer.style.display = 'none';
+    }
 }
 
 // ================================
@@ -140,7 +161,9 @@ if (!settings.particles) {
 // ================================
 function createParticles() {
     const particlesContainer = document.getElementById('particlesContainer');
-    const particleCount = isMobile ? 10 : 20; // Less particles on mobile
+    if (!particlesContainer) return;
+    
+    const particleCount = isMobile ? 10 : 20;
     
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
@@ -180,8 +203,12 @@ if (!isMobile) {
         mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
         mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
         
-        header.style.transform = `translate(${mouseX * 0.5}px, ${mouseY * 0.5}px)`;
-        mainContent.style.transform = `translate(${mouseX * 0.3}px, ${mouseY * 0.3}px)`;
+        if (header) {
+            header.style.transform = `translate(${mouseX * 0.5}px, ${mouseY * 0.5}px)`;
+        }
+        if (mainContent) {
+            mainContent.style.transform = `translate(${mouseX * 0.3}px, ${mouseY * 0.3}px)`;
+        }
     });
 } else {
     // Gyroscope parallax for mobile
@@ -190,18 +217,14 @@ if (!isMobile) {
         let tiltY = 0;
         
         window.addEventListener('deviceorientation', (e) => {
-            // Check if gyroscope is enabled in settings
             if (!settings.gyroscope) return;
             
-            // Get device tilt
             const beta = e.beta || 0;
             const gamma = e.gamma || 0;
             
-            // Normalize and limit range
             tiltX = Math.max(-15, Math.min(15, gamma)) * 0.5;
             tiltY = Math.max(-15, Math.min(15, beta - 45)) * 0.5;
             
-            // Apply smooth parallax
             requestAnimationFrame(() => {
                 if (header) {
                     header.style.transform = `translate(${tiltX}px, ${tiltY}px)`;
@@ -231,115 +254,224 @@ if (!isMobile) {
 }
 
 // ================================
-// LESSON CARDS - 3D EFFECT & TOUCH
+// SLIDING PANELS SYSTEM
 // ================================
-const lessonCards = document.querySelectorAll('.lesson-card');
+const panelsContainer = document.getElementById('panelsContainer');
+const panelsTrack = document.getElementById('panelsTrack');
+const panelCards = document.querySelectorAll('.panel-card');
+const slidePrev = document.getElementById('slidePrev');
+const slideNext = document.getElementById('slideNext');
+const panelsDots = document.getElementById('panelsDots');
 
-lessonCards.forEach(card => {
-    const color = card.getAttribute('data-color');
-    let isHovered = false;
-    let touchStartY = 0;
+let currentPanel = 0;
+const totalPanels = panelCards.length;
+
+// Initialize panels
+function initPanels() {
+    if (!panelsTrack || panelCards.length === 0) return;
     
-    // Dynamic color styling
-    card.style.borderColor = `${color}40`;
-    const startBtn = card.querySelector('.start-btn');
-    startBtn.style.background = `linear-gradient(135deg, ${color}, ${color}DD)`;
-    startBtn.style.boxShadow = `0 8px 24px ${color}40`;
-    
-    const progressFill = card.querySelector('.progress-fill');
-    progressFill.style.background = `linear-gradient(90deg, ${color}, var(--glow))`;
-    
-    if (!isMobile) {
-        // Desktop hover effects
-        card.addEventListener('mouseenter', () => {
-            isHovered = true;
-            card.style.borderColor = `${color}60`;
-            card.style.boxShadow = `0 30px 80px ${color}50, 0 0 80px ${color}30, inset 0 0 60px ${color}10`;
-            startBtn.style.boxShadow = `0 12px 32px ${color}60`;
+    // Set dynamic colors for each panel
+    panelCards.forEach((panel, index) => {
+        const color = panel.getAttribute('data-color');
+        const panelIcon = panel.querySelector('.panel-icon');
+        const panelGlow = panel.querySelector('.panel-glow');
+        const panelButton = panel.querySelector('.panel-button');
+        const circleProgress = panel.querySelector('.circle-progress');
+        
+        if (panelIcon) panelIcon.style.background = `linear-gradient(135deg, ${color}, ${color}DD)`;
+        if (panelGlow) panelGlow.style.color = color;
+        if (panelButton) panelButton.style.background = `linear-gradient(135deg, ${color}, ${color}DD)`;
+        if (circleProgress) circleProgress.style.stroke = color;
+        
+        // Click handler
+        panel.addEventListener('click', () => {
+            goToPanel(index);
         });
         
-        card.addEventListener('mouseleave', () => {
-            isHovered = false;
-            card.style.borderColor = 'transparent';
-            card.style.boxShadow = '';
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
-            startBtn.style.boxShadow = `0 8px 24px ${color}40`;
+        // Button click
+        const button = panel.querySelector('.panel-button');
+        if (button) {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const panelNumber = panel.getAttribute('data-panel');
+                
+                if (isMobile && navigator.vibrate) {
+                    navigator.vibrate(10);
+                }
+                
+                startLesson(panelNumber, panel);
+            });
+        }
+    });
+    
+    // Create dots
+    createDots();
+    
+    // Set initial active panel
+    updatePanels();
+}
+
+// Create dots navigation
+function createDots() {
+    if (!panelsDots) return;
+    
+    panelsDots.innerHTML = '';
+    
+    for (let i = 0; i < totalPanels; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        if (i === currentPanel) dot.classList.add('active');
+        
+        dot.addEventListener('click', () => {
+            goToPanel(i);
         });
         
-        // 3D tilt effect
-        card.addEventListener('mousemove', (e) => {
-            if (!isHovered) return;
-            
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 10;
-            const rotateY = (centerX - x) / 10;
-            
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-12px) scale(1.03)`;
-        });
-    } else {
-        // Mobile touch effects
-        card.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-            card.style.transform = 'scale(0.97)';
-            card.style.transition = 'transform 0.1s ease';
-            card.style.borderColor = `${color}60`;
-            card.style.boxShadow = `0 20px 60px ${color}50, 0 0 60px ${color}30`;
-            
-            // Haptic feedback
-            if (navigator.vibrate) {
-                navigator.vibrate(5);
+        panelsDots.appendChild(dot);
+    }
+}
+
+// Go to specific panel
+function goToPanel(index) {
+    if (index < 0 || index >= totalPanels) return;
+    
+    currentPanel = index;
+    updatePanels();
+    
+    if (isMobile && navigator.vibrate) {
+        navigator.vibrate(5);
+    }
+}
+
+// Update panels position and state
+function updatePanels() {
+    if (!panelsTrack || panelCards.length === 0) return;
+    
+    // Calculate offset
+    const panelWidth = panelCards[0].offsetWidth;
+    const gap = 32;
+    const offset = -(currentPanel * (panelWidth + gap));
+    
+    panelsTrack.style.transform = `translateX(${offset}px)`;
+    
+    // Update active states
+    panelCards.forEach((panel, index) => {
+        if (index === currentPanel) {
+            panel.classList.add('active');
+        } else {
+            panel.classList.remove('active');
+        }
+    });
+    
+    // Update dots
+    if (panelsDots) {
+        const dots = panelsDots.querySelectorAll('.dot');
+        dots.forEach((dot, index) => {
+            if (index === currentPanel) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
             }
-        });
-        
-        card.addEventListener('touchend', (e) => {
-            card.style.transform = 'scale(1)';
-            card.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-            setTimeout(() => {
-                card.style.borderColor = 'transparent';
-                card.style.boxShadow = '';
-            }, 300);
-        });
-        
-        card.addEventListener('touchcancel', () => {
-            card.style.transform = 'scale(1)';
-            card.style.borderColor = 'transparent';
-            card.style.boxShadow = '';
         });
     }
     
-    // Click handler
-    startBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const lessonId = card.getAttribute('data-lesson');
-        startLesson(lessonId, card);
-        
-        // Haptic feedback
-        if (isMobile && navigator.vibrate) {
-            navigator.vibrate(10);
+    // Update navigation buttons
+    if (slidePrev) slidePrev.disabled = currentPanel === 0;
+    if (slideNext) slideNext.disabled = currentPanel === totalPanels - 1;
+}
+
+// Navigation buttons
+if (slidePrev) {
+    slidePrev.addEventListener('click', () => {
+        if (currentPanel > 0) {
+            goToPanel(currentPanel - 1);
         }
     });
+}
+
+if (slideNext) {
+    slideNext.addEventListener('click', () => {
+        if (currentPanel < totalPanels - 1) {
+            goToPanel(currentPanel + 1);
+        }
+    });
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+        if (currentPanel > 0) goToPanel(currentPanel - 1);
+    } else if (e.key === 'ArrowRight') {
+        if (currentPanel < totalPanels - 1) goToPanel(currentPanel + 1);
+    }
 });
 
+// Touch/Swipe support for mobile
+let touchStartX = 0;
+let touchEndX = 0;
+
+if (panelsContainer) {
+    panelsContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    panelsContainer.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+}
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+            if (currentPanel < totalPanels - 1) {
+                goToPanel(currentPanel + 1);
+            }
+        } else {
+            if (currentPanel > 0) {
+                goToPanel(currentPanel - 1);
+            }
+        }
+    }
+}
+
+// Mouse wheel support (optional)
+if (!isMobile && panelsContainer) {
+    let wheelTimeout;
+    panelsContainer.addEventListener('wheel', (e) => {
+        clearTimeout(wheelTimeout);
+        
+        wheelTimeout = setTimeout(() => {
+            if (e.deltaY > 0) {
+                if (currentPanel < totalPanels - 1) {
+                    goToPanel(currentPanel + 1);
+                }
+            } else if (e.deltaY < 0) {
+                if (currentPanel > 0) {
+                    goToPanel(currentPanel - 1);
+                }
+            }
+        }, 50);
+    }, { passive: true });
+}
+
+// ================================
+// LESSON STARTER
+// ================================
 function startLesson(lessonId, card) {
-    // Add click animation
-    card.style.transform = 'scale(0.95)';
-    card.style.transition = 'transform 0.2s ease';
+    if (card) {
+        card.style.transform = 'scale(0.95)';
+        card.style.transition = 'transform 0.2s ease';
+    }
     
     setTimeout(() => {
         localStorage.setItem('currentLesson', lessonId);
+        alert(`Урок ${lessonId} скоро будет доступен! 🚀\n\nПока что мы работаем над контентом...`);
         
-        // Check if lessons.html exists
-        const lessonsPageExists = document.querySelector('[href="lessons.html"]');
-        
-        if (lessonsPageExists) {
-            window.location.href = 'lessons.html';
-        } else {
-            alert(`Урок ${lessonId} скоро будет доступен! 🚀\n\nПока что мы работаем над контентом...`);
-            card.style.transform = 'scale(1)';
+        if (card) {
+            card.style.transform = '';
         }
     }, 200);
 }
@@ -351,20 +483,23 @@ function loadProgress() {
     const savedProgress = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
     
     Object.keys(savedProgress).forEach(lessonId => {
-        const card = document.querySelector(`[data-lesson="${lessonId}"]`);
-        if (!card) return;
+        const panel = document.querySelector(`[data-panel="${lessonId}"]`);
+        if (!panel) return;
         
         const progress = savedProgress[lessonId];
-        const progressFill = card.querySelector('.progress-fill');
-        const progressText = card.querySelector('.progress-text');
+        const progressNumber = panel.querySelector('.progress-number');
+        const progressLabel = panel.querySelector('.progress-label');
+        const circleProgress = panel.querySelector('.circle-progress');
         
-        const percentage = (progress.completed / progress.total) * 100;
-        progressFill.style.width = `${percentage}%`;
-        progressText.textContent = `${progress.completed}/${progress.total}`;
+        const percentage = Math.round((progress.completed / progress.total) * 100);
+        
+        if (progressNumber) progressNumber.textContent = `${percentage}%`;
+        if (progressLabel) progressLabel.textContent = `${progress.completed}/${progress.total} уроков`;
+        if (circleProgress) {
+            circleProgress.style.strokeDasharray = `${percentage}, 100`;
+        }
     });
 }
-
-loadProgress();
 
 // ================================
 // WINDOW RESIZE HANDLER
@@ -375,8 +510,13 @@ window.addEventListener('resize', () => {
     resizeTimeout = setTimeout(() => {
         // Recreate particles on resize
         const particlesContainer = document.getElementById('particlesContainer');
-        particlesContainer.innerHTML = '';
-        createParticles();
+        if (particlesContainer) {
+            particlesContainer.innerHTML = '';
+            createParticles();
+        }
+        
+        // Update panels
+        updatePanels();
     }, 250);
 });
 
@@ -397,7 +537,6 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Apply to modules and cards
 document.querySelectorAll('.module').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(60px)';
@@ -408,7 +547,7 @@ document.querySelectorAll('.module').forEach(el => {
 // ================================
 // PULL TO REFRESH (Mobile)
 // ================================
-if (isMobile) {
+if (isMobile && mainContainer) {
     let touchstartY = 0;
     let touchendY = 0;
     
@@ -418,18 +557,16 @@ if (isMobile) {
     
     mainContainer.addEventListener('touchend', (e) => {
         touchendY = e.changedTouches[0].screenY;
-        handleSwipe();
+        handlePullRefresh();
     }, { passive: true });
     
-    function handleSwipe() {
+    function handlePullRefresh() {
         const swipeDistance = touchendY - touchstartY;
         
-        // Pull down to refresh
         if (swipeDistance > 150 && mainContainer.scrollTop === 0) {
             if (navigator.vibrate) {
                 navigator.vibrate(15);
             }
-            // Optional: add refresh animation
             console.log('Pull to refresh triggered');
         }
     }
@@ -438,7 +575,6 @@ if (isMobile) {
 // ================================
 // PERFORMANCE OPTIMIZATION
 // ================================
-// Reduce animations when battery is low (if API available)
 if ('getBattery' in navigator) {
     navigator.getBattery().then((battery) => {
         if (battery.level < 0.2) {
@@ -447,6 +583,12 @@ if ('getBattery' in navigator) {
         }
     });
 }
+
+// ================================
+// INITIALIZE
+// ================================
+initPanels();
+loadProgress();
 
 // ================================
 // EXPORTS

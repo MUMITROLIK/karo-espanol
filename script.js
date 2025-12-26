@@ -4,13 +4,73 @@
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
 // ================================
-// SOUND EFFECTS
+// SOUND EFFECTS (Optimized for Mobile)
 // ================================
-const sounds = {
-    click: new Audio('assets/for_settings_click.mp3'),
-    fail: new Audio('assets/fail.mp3')
-};
+let audioContext = null;
+let soundBuffers = {};
+let isAudioReady = false;
 
+// Initialize Audio Context on first user interaction
+function initAudio() {
+    if (audioContext) return;
+    
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    // Load sounds
+    loadSound('click', 'assets/for_settings_click.mp3');
+    loadSound('fail', 'assets/fail.mp3');
+    
+    console.log('🔊 Audio system initialized');
+}
+
+// Load sound into buffer (instant playback)
+async function loadSound(name, url) {
+    try {
+        const response = await fetch(url);
+        const arrayBuffer = await response.arrayBuffer();
+        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        soundBuffers[name] = audioBuffer;
+        console.log(`✅ Sound loaded: ${name}`);
+        isAudioReady = true;
+    } catch (error) {
+        console.error(`❌ Error loading sound ${name}:`, error);
+    }
+}
+
+// Play sound (instant, no delay)
+function playSound(soundName) {
+    if (!audioContext) {
+        initAudio();
+        // Delay first sound slightly to allow initialization
+        setTimeout(() => playSoundImmediate(soundName), 50);
+    } else {
+        playSoundImmediate(soundName);
+    }
+}
+
+function playSoundImmediate(soundName) {
+    if (!soundBuffers[soundName]) {
+        console.warn(`Sound ${soundName} not loaded yet`);
+        return;
+    }
+    
+    const source = audioContext.createBufferSource();
+    source.buffer = soundBuffers[soundName];
+    
+    // Optional: Add volume control
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = 0.5; // 50% volume
+    
+    source.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    source.start(0);
+    
+    console.log(`🔊 Playing: ${soundName}`);
+}
+
+// Auto-initialize on first touch/click
+document.addEventListener('touchstart', initAudio, { once: true });
+document.addEventListener('click', initAudio, { once: true });
 // Preload sounds
 sounds.click.load();
 sounds.fail.load();

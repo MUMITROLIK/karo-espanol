@@ -80,7 +80,7 @@ if (themeToggleSwitch) {
         settings.theme = e.target.checked ? 'dark' : 'light';
         document.body.className = `${settings.theme}-theme`;
         saveSettings();
-        
+
         if (isMobile && navigator.vibrate) {
             navigator.vibrate(10);
         }
@@ -92,13 +92,13 @@ if (gyroToggleSwitch) {
     gyroToggleSwitch.addEventListener('change', (e) => {
         settings.gyroscope = e.target.checked;
         saveSettings();
-        
+
         if (!isMobile) {
             e.target.checked = false;
             settings.gyroscope = false;
             alert('⚠️ Гироскоп доступен только на мобильных устройствах');
         }
-        
+
         if (isMobile && navigator.vibrate) {
             navigator.vibrate(10);
         }
@@ -110,13 +110,13 @@ if (animationsToggleSwitch) {
     animationsToggleSwitch.addEventListener('change', (e) => {
         settings.animations = e.target.checked;
         saveSettings();
-        
+
         if (!settings.animations) {
             document.body.classList.add('no-animations');
         } else {
             document.body.classList.remove('no-animations');
         }
-        
+
         if (isMobile && navigator.vibrate) {
             navigator.vibrate(10);
         }
@@ -128,7 +128,7 @@ if (particlesToggleSwitch) {
     particlesToggleSwitch.addEventListener('change', (e) => {
         settings.particles = e.target.checked;
         saveSettings();
-        
+
         const particlesContainer = document.getElementById('particlesContainer');
         if (particlesContainer) {
             if (settings.particles) {
@@ -137,7 +137,7 @@ if (particlesToggleSwitch) {
                 particlesContainer.style.display = 'none';
             }
         }
-        
+
         if (isMobile && navigator.vibrate) {
             navigator.vibrate(10);
         }
@@ -254,208 +254,219 @@ if (!isMobile) {
 }
 
 // ================================
-// SLIDING PANELS SYSTEM
+// ISLAND HOPPING SYSTEM
 // ================================
-const panelsContainer = document.getElementById('panelsContainer');
-const panelsTrack = document.getElementById('panelsTrack');
-const panelCards = document.querySelectorAll('.panel-card');
-const slidePrev = document.getElementById('slidePrev');
-const slideNext = document.getElementById('slideNext');
-const panelsDots = document.getElementById('panelsDots');
+const islandWrappers = document.querySelectorAll('.island-wrapper');
 
-let currentPanel = 0;
-const totalPanels = panelCards.length;
+// Initialize islands
+function initIslands() {
+    if (islandWrappers.length === 0) return;
 
-// Initialize panels
-function initPanels() {
-    if (!panelsTrack || panelCards.length === 0) return;
-    
-    // Set dynamic colors for each panel
-    panelCards.forEach((panel, index) => {
-        const color = panel.getAttribute('data-color');
-        const panelIcon = panel.querySelector('.panel-icon');
-        const panelGlow = panel.querySelector('.panel-glow');
-        const panelButton = panel.querySelector('.panel-button');
-        const circleProgress = panel.querySelector('.circle-progress');
-        
-        if (panelIcon) panelIcon.style.background = `linear-gradient(135deg, ${color}, ${color}DD)`;
-        if (panelGlow) panelGlow.style.color = color;
-        if (panelButton) panelButton.style.background = `linear-gradient(135deg, ${color}, ${color}DD)`;
-        if (circleProgress) circleProgress.style.stroke = color;
-        
-        // Click handler
-        panel.addEventListener('click', () => {
-            goToPanel(index);
-        });
-        
-        // Button click
-        const button = panel.querySelector('.panel-button');
+    islandWrappers.forEach((wrapper, index) => {
+        const island = wrapper.querySelector('.island-card');
+        const islandNumber = wrapper.getAttribute('data-island');
+        const color = wrapper.getAttribute('data-color');
+
+        // Apply dynamic colors
+        const islandIcon = wrapper.querySelector('.island-icon');
+        const islandGlow = wrapper.querySelector('.island-glow');
+        const islandButton = wrapper.querySelector('.island-button');
+        const ringFill = wrapper.querySelector('.ring-fill');
+
+        if (islandIcon) {
+            islandIcon.style.background = `linear-gradient(135deg, ${color}, ${color}DD)`;
+        }
+        if (islandGlow) {
+            islandGlow.style.color = color;
+        }
+        if (islandButton) {
+            islandButton.style.background = `linear-gradient(135deg, ${color}, ${color}DD)`;
+        }
+        if (ringFill) {
+            ringFill.style.stroke = color;
+        }
+
+        // Desktop: Hover effects
+        if (!isMobile) {
+            wrapper.addEventListener('mouseenter', () => {
+                if (island) {
+                    island.style.borderColor = color;
+                    island.style.boxShadow = `0 30px 80px ${color}50, 0 0 60px ${color}30`;
+                }
+            });
+
+            wrapper.addEventListener('mouseleave', () => {
+                if (island) {
+                    island.style.borderColor = 'transparent';
+                    island.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.2)';
+                }
+            });
+        } else {
+            // Mobile: Touch effects
+            wrapper.addEventListener('touchstart', () => {
+                if (island) {
+                    island.style.borderColor = color;
+                    island.style.transform = 'scale(0.97)';
+                    island.style.boxShadow = `0 30px 80px ${color}50`;
+                }
+
+                if (navigator.vibrate) {
+                    navigator.vibrate(5);
+                }
+            });
+
+            wrapper.addEventListener('touchend', () => {
+                if (island) {
+                    setTimeout(() => {
+                        island.style.borderColor = 'transparent';
+                        island.style.transform = 'scale(1)';
+                        island.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.2)';
+                    }, 300);
+                }
+            });
+        }
+
+        // Button click handler
+        const button = wrapper.querySelector('.island-button');
         if (button) {
             button.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const panelNumber = panel.getAttribute('data-panel');
-                
-                if (isMobile && navigator.vibrate) {
+
+                if (navigator.vibrate && isMobile) {
                     navigator.vibrate(10);
                 }
-                
-                startLesson(panelNumber, panel);
+
+                toggleIsland(button);
+            });
+        }
+
+        // Card click handler
+        if (island) {
+            island.addEventListener('click', () => {
+                if (navigator.vibrate && isMobile) {
+                    navigator.vibrate(5);
+                }
+
+                // Scroll to island smoothly
+                wrapper.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
             });
         }
     });
-    
-    // Create dots
-    createDots();
-    
-    // Set initial active panel
-    updatePanels();
 }
 
-// Create dots navigation
-function createDots() {
-    if (!panelsDots) return;
-    
-    panelsDots.innerHTML = '';
-    
-    for (let i = 0; i < totalPanels; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'dot';
-        if (i === currentPanel) dot.classList.add('active');
-        
-        dot.addEventListener('click', () => {
-            goToPanel(i);
-        });
-        
-        panelsDots.appendChild(dot);
+// Update island progress
+function updateIslandProgress(islandNumber, percentage) {
+    const wrapper = document.querySelector(`[data-island="${islandNumber}"]`);
+    if (!wrapper) return;
+
+    const ringFill = wrapper.querySelector('.ring-fill');
+    const progressPercent = wrapper.querySelector('.progress-percent');
+
+    if (ringFill) {
+        ringFill.style.setProperty('--progress', percentage);
+    }
+
+    if (progressPercent) {
+        progressPercent.textContent = `${percentage}%`;
+    }
+
+    // Mark as completed if 100%
+    if (percentage === 100) {
+        wrapper.classList.add('completed');
     }
 }
 
-// Go to specific panel
-function goToPanel(index) {
-    if (index < 0 || index >= totalPanels) return;
-    
-    currentPanel = index;
-    updatePanels();
-    
-    if (isMobile && navigator.vibrate) {
-        navigator.vibrate(5);
-    }
-}
-
-// Update panels position and state
-function updatePanels() {
-    if (!panelsTrack || panelCards.length === 0) return;
-    
-    // Calculate offset
-    const panelWidth = panelCards[0].offsetWidth;
-    const gap = 32;
-    const offset = -(currentPanel * (panelWidth + gap));
-    
-    panelsTrack.style.transform = `translateX(${offset}px)`;
-    
-    // Update active states
-    panelCards.forEach((panel, index) => {
-        if (index === currentPanel) {
-            panel.classList.add('active');
-        } else {
-            panel.classList.remove('active');
+// Scroll reveal animation
+const islandObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
         }
     });
-    
-    // Update dots
-    if (panelsDots) {
-        const dots = panelsDots.querySelectorAll('.dot');
-        dots.forEach((dot, index) => {
-            if (index === currentPanel) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
-    }
-    
-    // Update navigation buttons
-    if (slidePrev) slidePrev.disabled = currentPanel === 0;
-    if (slideNext) slideNext.disabled = currentPanel === totalPanels - 1;
-}
-
-// Navigation buttons
-if (slidePrev) {
-    slidePrev.addEventListener('click', () => {
-        if (currentPanel > 0) {
-            goToPanel(currentPanel - 1);
-        }
-    });
-}
-
-if (slideNext) {
-    slideNext.addEventListener('click', () => {
-        if (currentPanel < totalPanels - 1) {
-            goToPanel(currentPanel + 1);
-        }
-    });
-}
-
-// Keyboard navigation
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') {
-        if (currentPanel > 0) goToPanel(currentPanel - 1);
-    } else if (e.key === 'ArrowRight') {
-        if (currentPanel < totalPanels - 1) goToPanel(currentPanel + 1);
-    }
+}, {
+    threshold: 0.2,
+    rootMargin: '0px 0px -100px 0px'
 });
 
-// Touch/Swipe support for mobile
-let touchStartX = 0;
-let touchEndX = 0;
+islandWrappers.forEach(wrapper => {
+    wrapper.style.animationPlayState = 'paused';
+    islandObserver.observe(wrapper);
+});
 
-if (panelsContainer) {
-    panelsContainer.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
+// Parallax effect for islands on scroll (subtle)
+if (!isMobile) {
+    let ticking = false;
 
-    panelsContainer.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const scrolled = window.pageYOffset;
+
+                islandWrappers.forEach((wrapper, index) => {
+                    const speed = (index % 2 === 0) ? 0.3 : -0.3;
+                    const yPos = scrolled * speed;
+                    wrapper.style.transform = `translateY(${yPos}px)`;
+                });
+
+                ticking = false;
+            });
+
+            ticking = true;
+        }
+    });
 }
 
-function handleSwipe() {
-    const swipeThreshold = 50;
-    const diff = touchStartX - touchEndX;
+// ================================
+// TOGGLE ISLAND (раскрытие пути)
+// ================================
+function toggleIsland(button) {
+    const islandWrapper = button.closest('.island-wrapper');
+    const isExpanded = islandWrapper.classList.contains('expanded');
     
-    if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0) {
-            if (currentPanel < totalPanels - 1) {
-                goToPanel(currentPanel + 1);
+    // Закрыть все другие острова
+    document.querySelectorAll('.island-wrapper').forEach(wrapper => {
+        wrapper.classList.remove('expanded');
+        const btn = wrapper.querySelector('.island-button');
+        if (btn) btn.textContent = 'Начать';
+    });
+    
+    // Переключить текущий остров
+    if (!isExpanded) {
+        islandWrapper.classList.add('expanded');
+        button.textContent = 'Закрыть';
+        
+        // Плавный скролл к пути
+        setTimeout(() => {
+            const lessonsPath = islandWrapper.querySelector('.lessons-path');
+            if (lessonsPath) {
+                lessonsPath.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
-        } else {
-            if (currentPanel > 0) {
-                goToPanel(currentPanel - 1);
-            }
-        }
+        }, 300);
+    }
+    
+    if (navigator.vibrate) {
+        navigator.vibrate(10);
     }
 }
 
-// Mouse wheel support (optional)
-if (!isMobile && panelsContainer) {
-    let wheelTimeout;
-    panelsContainer.addEventListener('wheel', (e) => {
-        clearTimeout(wheelTimeout);
-        
-        wheelTimeout = setTimeout(() => {
-            if (e.deltaY > 0) {
-                if (currentPanel < totalPanels - 1) {
-                    goToPanel(currentPanel + 1);
-                }
-            } else if (e.deltaY < 0) {
-                if (currentPanel > 0) {
-                    goToPanel(currentPanel - 1);
-                }
-            }
-        }, 50);
-    }, { passive: true });
-}
+// Клик на урок
+document.addEventListener('click', (e) => {
+    const lessonCircle = e.target.closest('.lesson-circle');
+    if (!lessonCircle || lessonCircle.classList.contains('locked')) return;
+    
+    const lessonId = lessonCircle.getAttribute('data-lesson');
+    
+    if (lessonCircle.classList.contains('story')) {
+        alert('История скоро будет доступна! 📖');
+    } else if (lessonCircle.classList.contains('chest')) {
+        alert('Сундучок скоро будет доступен! 🎁');
+    } else if (lessonId) {
+        startLesson(lessonId);
+    }
+});
 
 // ================================
 // LESSON STARTER
@@ -465,11 +476,11 @@ function startLesson(lessonId, card) {
         card.style.transform = 'scale(0.95)';
         card.style.transition = 'transform 0.2s ease';
     }
-    
+
     setTimeout(() => {
         localStorage.setItem('currentLesson', lessonId);
         alert(`Урок ${lessonId} скоро будет доступен! 🚀\n\nПока что мы работаем над контентом...`);
-        
+
         if (card) {
             card.style.transform = '';
         }
@@ -481,23 +492,15 @@ function startLesson(lessonId, card) {
 // ================================
 function loadProgress() {
     const savedProgress = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
-    
+
     Object.keys(savedProgress).forEach(lessonId => {
-        const panel = document.querySelector(`[data-panel="${lessonId}"]`);
-        if (!panel) return;
-        
+        const wrapper = document.querySelector(`[data-island="${lessonId}"]`);
+        if (!wrapper) return;
+
         const progress = savedProgress[lessonId];
-        const progressNumber = panel.querySelector('.progress-number');
-        const progressLabel = panel.querySelector('.progress-label');
-        const circleProgress = panel.querySelector('.circle-progress');
-        
         const percentage = Math.round((progress.completed / progress.total) * 100);
         
-        if (progressNumber) progressNumber.textContent = `${percentage}%`;
-        if (progressLabel) progressLabel.textContent = `${progress.completed}/${progress.total} уроков`;
-        if (circleProgress) {
-            circleProgress.style.strokeDasharray = `${percentage}, 100`;
-        }
+        updateIslandProgress(lessonId, percentage);
     });
 }
 
@@ -508,15 +511,11 @@ let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-        // Recreate particles on resize
         const particlesContainer = document.getElementById('particlesContainer');
         if (particlesContainer) {
             particlesContainer.innerHTML = '';
             createParticles();
         }
-        
-        // Update panels
-        updatePanels();
     }, 250);
 });
 
@@ -587,7 +586,7 @@ if ('getBattery' in navigator) {
 // ================================
 // INITIALIZE
 // ================================
-initPanels();
+initIslands();
 loadProgress();
 
 // ================================

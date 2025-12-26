@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Karo Español 🎮</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body class="light-theme">
     <!-- Floating Particles Background -->
     <div class="particles-container" id="particlesContainer"></div>
@@ -17,18 +19,21 @@
             <div class="header-content">
                 <div class="logo">
                     <div class="logo-icon-wrapper">
-                        <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                        <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white"
+                            stroke-width="2.5">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>
                     </div>
                     <h1 class="logo-text">Karo Español</h1>
                 </div>
-                
+
                 <button class="settings-toggle" id="settingsToggle" aria-label="Настройки">
                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                         <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M12 1v6m0 6v6m5.2-13.2l-4.2 4.2m0 6l4.2 4.2M23 12h-6m-6 0H1m18.2 5.2l-4.2-4.2m0-6l4.2-4.2"></path>
+                        <path
+                            d="M12 1v6m0 6v6m5.2-13.2l-4.2 4.2m0 6l4.2 4.2M23 12h-6m-6 0H1m18.2 5.2l-4.2-4.2m0-6l4.2-4.2">
+                        </path>
                     </svg>
                 </button>
             </div>
@@ -40,341 +45,193 @@
             <div class="module" data-module="1">
                 <div class="module-card">
                     <div class="decorative-gradient"></div>
-                    
+
                     <div class="module-header">
                         <h2 class="module-title">Модуль 1: Основы испанского</h2>
                         <p class="module-subtitle">Módulo 1: Fundamentos del español</p>
                     </div>
 
-                   <!-- Island Hopping Container -->
-<div class="island-hopping-container">
-    <!-- Sky Background -->
-    <div class="sky-background">
-        <div class="cloud cloud-1"></div>
-        <div class="cloud cloud-2"></div>
-        <div class="cloud cloud-3"></div>
+                    <!-- Island Hopping Container -->
+                    <div class="island-hopping-container">
+                        <!-- Sky Background -->
+                        <div class="sky-background">
+                            <div class="cloud cloud-1"></div>
+                            <div class="cloud cloud-2"></div>
+                            <div class="cloud cloud-3"></div>
+                        </div>
+
+                        <!-- Islands Path -->
+                        <div class="islands-path">
+
+                            <!-- Island 1 -->
+                            <div class="island-wrapper" data-island="1" data-color="#E1A6AD" style="--delay: 0s;">
+                                <div class="bridge-line"></div>
+                                <div class="island-container">
+                                    <div class="island-base"></div>
+                                    <div class="island-card">
+                                        <div class="island-glow"></div>
+                                        <div class="island-icon">
+                                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white"
+                                                stroke-width="2.5">
+                                                <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                                                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                                                <line x1="6" y1="1" x2="6" y2="4"></line>
+                                                <line x1="10" y1="1" x2="10" y2="4"></line>
+                                                <line x1="14" y1="1" x2="14" y2="4"></line>
+                                            </svg>
+                                        </div>
+                                        <div class="island-number">1</div>
+                                        <h3 class="island-title">Кафе</h3>
+                                        <p class="island-subtitle">En el café</p>
+                                        <div class="island-progress">
+                                            <div class="progress-ring">
+                                                <svg width="50" height="50">
+                                                    <circle cx="25" cy="25" r="20" class="ring-bg"></circle>
+                                                    <circle cx="25" cy="25" r="20" class="ring-fill"
+                                                        style="--progress: 0"></circle>
+                                                </svg>
+                                                <span class="progress-percent">0%</span>
+                                            </div>
+                                        </div>
+                                        <button class="island-button">Начать</button>
+
+                                        <!-- ⬇️ НОВЫЙ ПУТЬ С УРОКАМИ ⬇️ -->
+                                        <div class="lessons-path">
+                                            <div class="lesson-node">
+                                                <div class="lesson-circle" data-lesson="1">1</div>
+                                                <div class="lesson-label">Урок 1</div>
+                                            </div>
+
+                                            <div class="lesson-node">
+                                                <div class="lesson-circle locked" data-lesson="2">2</div>
+                                                <div class="lesson-label">Урок 2</div>
+                                            </div>
+
+                                            <div class="lesson-node">
+                                                <div class="lesson-circle story locked">📖</div>
+                                                <div class="lesson-label">История</div>
+                                            </div>
+
+                                            <div class="lesson-node">
+                                                <div class="lesson-circle locked" data-lesson="3">3</div>
+                                                <div class="lesson-label">Урок 3</div>
+                                            </div>
+
+                                            <div class="lesson-node">
+                                                <div class="lesson-circle locked" data-lesson="4">4</div>
+                                                <div class="lesson-label">Урок 4</div>
+                                            </div>
+
+                                            <div class="lesson-node">
+                                                <div class="lesson-circle locked" data-lesson="5">5</div>
+                                                <div class="lesson-label">Урок 5</div>
+                                            </div>
+
+                                            <div class="lesson-node">
+                                                <div class="lesson-circle locked" data-lesson="6">6</div>
+                                                <div class="lesson-label">Урок 6</div>
+                                            </div>
+
+                                            <div class="lesson-node">
+                                                <div class="lesson-circle chest locked">🎁</div>
+                                                <div class="lesson-label">Сундучок</div>
+                                            </div>
+
+                                            <div class="lesson-node">
+                                                <div class="lesson-circle locked" data-lesson="7">7</div>
+                                                <div class="lesson-label">Урок 7</div>
+                                            </div>
+                                        </div>
+                                        <!-- ⬆️ КОНЕЦ ПУТИ ⬆️ -->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Island 2 -->
+                            <div class="island-wrapper" data-island="2" data-color="#B8D5B1" style="--delay: 0.1s;">
+                                <div class="bridge-line"></div>
+                                <div class="island-container">
+                                    <div class="island-base"></div>
+                                    <div class="island-card">
+                                        <div class="island-glow"></div>
+                                        <div class="island-icon">
+                                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white"
+                                                stroke-width="2.5">
+                                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                                <circle cx="9" cy="7" r="4"></circle>
+                                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="island-number">2</div>
+                                        <h3 class="island-title">Приветствия</h3>
+                                        <p class="island-subtitle">Saludos</p>
+                                        <div class="island-progress">
+                                            <div class="progress-ring">
+                                                <svg width="50" height="50">
+                                                    <circle cx="25" cy="25" r="20" class="ring-bg"></circle>
+                                                    <circle cx="25" cy="25" r="20" class="ring-fill"
+                                                        style="--progress: 0"></circle>
+                                                </svg>
+                                                <span class="progress-percent">0%</span>
+                                            </div>
+                                        </div>
+                                        <button class="island-button">Начать</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Остальные острова 3-10 без изменений -->
+                            <!-- Island 3 -->
+                            <div class="island-wrapper" data-island="3" data-color="#77679A" style="--delay: 0.2s;">
+                                <div class="bridge-line"></div>
+                                <div class="island-container">
+                                    <div class="island-base"></div>
+                                    <div class="island-card">
+                                        <div class="island-glow"></div>
+                                        <div class="island-icon">
+                                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white"
+                                                stroke-width="2.5">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                                <path
+                                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                        <div class="island-number">3</div>
+                                        <h3 class="island-title">Ser de</h3>
+                                        <p class="island-subtitle">Origen</p>
+                                        <div class="island-progress">
+                                            <div class="progress-ring">
+                                                <svg width="50" height="50">
+                                                    <circle cx="25" cy="25" r="20" class="ring-bg"></circle>
+                                                    <circle cx="25" cy="25" r="20" class="ring-fill"
+                                                        style="--progress: 0"></circle>
+                                                </svg>
+                                                <span class="progress-percent">0%</span>
+                                            </div>
+                                        </div>
+                                        <button class="island-button">Начать</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Добавьте остальные острова 4-10 из оригинального HTML -->
+
+                        </div>
+
+                        <!-- Water Background -->
+                        <div class="water-background">
+                            <div class="wave wave-1"></div>
+                            <div class="wave wave-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
-
-    <!-- Islands Path -->
-    <div class="islands-path">
-        
-        <!-- Island 1 -->
-        <div class="island-wrapper" data-island="1" data-color="#E1A6AD" style="--delay: 0s;">
-            <div class="bridge-line"></div>
-            <div class="island-container">
-                <div class="island-base"></div>
-                <div class="island-card">
-                    <div class="island-glow"></div>
-                    <div class="island-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
-                            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
-                            <line x1="6" y1="1" x2="6" y2="4"></line>
-                            <line x1="10" y1="1" x2="10" y2="4"></line>
-                            <line x1="14" y1="1" x2="14" y2="4"></line>
-                        </svg>
-                    </div>
-                    <div class="island-number">1</div>
-                    <h3 class="island-title">Кафе</h3>
-                    <p class="island-subtitle">En el café</p>
-                    <div class="island-progress">
-                        <div class="progress-ring">
-                            <svg width="50" height="50">
-                                <circle cx="25" cy="25" r="20" class="ring-bg"></circle>
-                                <circle cx="25" cy="25" r="20" class="ring-fill" style="--progress: 0"></circle>
-                            </svg>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                    </div>
-                    <button class="island-button">Начать</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Island 2 -->
-        <div class="island-wrapper" data-island="2" data-color="#B8D5B1" style="--delay: 0.1s;">
-            <div class="bridge-line"></div>
-            <div class="island-container">
-                <div class="island-base"></div>
-                <div class="island-card">
-                    <div class="island-glow"></div>
-                    <div class="island-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
-                    </div>
-                    <div class="island-number">2</div>
-                    <h3 class="island-title">Приветствия</h3>
-                    <p class="island-subtitle">Saludos</p>
-                    <div class="island-progress">
-                        <div class="progress-ring">
-                            <svg width="50" height="50">
-                                <circle cx="25" cy="25" r="20" class="ring-bg"></circle>
-                                <circle cx="25" cy="25" r="20" class="ring-fill" style="--progress: 0"></circle>
-                            </svg>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                    </div>
-                    <button class="island-button">Начать</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Island 3 -->
-        <div class="island-wrapper" data-island="3" data-color="#77679A" style="--delay: 0.2s;">
-            <div class="bridge-line"></div>
-            <div class="island-container">
-                <div class="island-base"></div>
-                <div class="island-card">
-                    <div class="island-glow"></div>
-                    <div class="island-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="2" y1="12" x2="22" y2="12"></line>
-                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                        </svg>
-                    </div>
-                    <div class="island-number">3</div>
-                    <h3 class="island-title">Ser de</h3>
-                    <p class="island-subtitle">Origen</p>
-                    <div class="island-progress">
-                        <div class="progress-ring">
-                            <svg width="50" height="50">
-                                <circle cx="25" cy="25" r="20" class="ring-bg"></circle>
-                                <circle cx="25" cy="25" r="20" class="ring-fill" style="--progress: 0"></circle>
-                            </svg>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                    </div>
-                    <button class="island-button">Начать</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Island 4 -->
-        <div class="island-wrapper" data-island="4" data-color="#C9535B" style="--delay: 0.3s;">
-            <div class="bridge-line"></div>
-            <div class="island-container">
-                <div class="island-base"></div>
-                <div class="island-card">
-                    <div class="island-glow"></div>
-                    <div class="island-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
-                    </div>
-                    <div class="island-number">4</div>
-                    <h3 class="island-title">Семья</h3>
-                    <p class="island-subtitle">Familia</p>
-                    <div class="island-progress">
-                        <div class="progress-ring">
-                            <svg width="50" height="50">
-                                <circle cx="25" cy="25" r="20" class="ring-bg"></circle>
-                                <circle cx="25" cy="25" r="20" class="ring-fill" style="--progress: 0"></circle>
-                            </svg>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                    </div>
-                    <button class="island-button">Начать</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Island 5 -->
-        <div class="island-wrapper" data-island="5" data-color="#1F3855" style="--delay: 0.4s;">
-            <div class="bridge-line"></div>
-            <div class="island-container">
-                <div class="island-base"></div>
-                <div class="island-card">
-                    <div class="island-glow"></div>
-                    <div class="island-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                            <circle cx="12" cy="8" r="7"></circle>
-                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-                        </svg>
-                    </div>
-                    <div class="island-number">5</div>
-                    <h3 class="island-title">Характеры</h3>
-                    <p class="island-subtitle">Personalidad</p>
-                    <div class="island-progress">
-                        <div class="progress-ring">
-                            <svg width="50" height="50">
-                                <circle cx="25" cy="25" r="20" class="ring-bg"></circle>
-                                <circle cx="25" cy="25" r="20" class="ring-fill" style="--progress: 0"></circle>
-                            </svg>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                    </div>
-                    <button class="island-button">Начать</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Island 6 -->
-        <div class="island-wrapper" data-island="6" data-color="#E8DDEB" style="--delay: 0.5s;">
-            <div class="bridge-line"></div>
-            <div class="island-container">
-                <div class="island-base"></div>
-                <div class="island-card">
-                    <div class="island-glow"></div>
-                    <div class="island-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#543E64" stroke-width="2.5">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                    </div>
-                    <div class="island-number">6</div>
-                    <h3 class="island-title">Estar</h3>
-                    <p class="island-subtitle">Ubicación</p>
-                    <div class="island-progress">
-                        <div class="progress-ring">
-                            <svg width="50" height="50">
-                                <circle cx="25" cy="25" r="20" class="ring-bg"></circle>
-                                <circle cx="25" cy="25" r="20" class="ring-fill" style="--progress: 0"></circle>
-                            </svg>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                    </div>
-                    <button class="island-button">Начать</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Island 7 -->
-        <div class="island-wrapper" data-island="7" data-color="#C6866E" style="--delay: 0.6s;">
-            <div class="bridge-line"></div>
-            <div class="island-container">
-                <div class="island-base"></div>
-                <div class="island-card">
-                    <div class="island-glow"></div>
-                    <div class="island-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                        </svg>
-                    </div>
-                    <div class="island-number">7</div>
-                    <h3 class="island-title">Город</h3>
-                    <p class="island-subtitle">Ciudad</p>
-                    <div class="island-progress">
-                        <div class="progress-ring">
-                            <svg width="50" height="50">
-                                <circle cx="25" cy="25" r="20" class="ring-bg"></circle>
-                                <circle cx="25" cy="25" r="20" class="ring-fill" style="--progress: 0"></circle>
-                            </svg>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                    </div>
-                    <button class="island-button">Начать</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Island 8 -->
-        <div class="island-wrapper" data-island="8" data-color="#543E64" style="--delay: 0.7s;">
-            <div class="bridge-line"></div>
-            <div class="island-container">
-                <div class="island-base"></div>
-                <div class="island-card">
-                    <div class="island-glow"></div>
-                    <div class="island-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                            <path d="M12.89 1.45l8 4A2 2 0 0 1 22 7.24v9.53a2 2 0 0 1-1.11 1.79l-8 4a2 2 0 0 1-1.79 0l-8-4a2 2 0 0 1-1.1-1.8V7.24a2 2 0 0 1 1.11-1.79l8-4a2 2 0 0 1 1.78 0z"></path>
-                            <polyline points="2.32 6.16 12 11 21.68 6.16"></polyline>
-                            <line x1="12" y1="22.76" x2="12" y2="11"></line>
-                        </svg>
-                    </div>
-                    <div class="island-number">8</div>
-                    <h3 class="island-title">Языки</h3>
-                    <p class="island-subtitle">Idiomas</p>
-                    <div class="island-progress">
-                        <div class="progress-ring">
-                            <svg width="50" height="50">
-                                <circle cx="25" cy="25" r="20" class="ring-bg"></circle>
-                                <circle cx="25" cy="25" r="20" class="ring-fill" style="--progress: 0"></circle>
-                            </svg>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                    </div>
-                    <button class="island-button">Начать</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Island 9 -->
-        <div class="island-wrapper" data-island="9" data-color="#20214F" style="--delay: 0.8s;">
-            <div class="bridge-line"></div>
-            <div class="island-container">
-                <div class="island-base"></div>
-                <div class="island-card">
-                    <div class="island-glow"></div>
-                    <div class="island-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
-                        </svg>
-                    </div>
-                    <div class="island-number">9</div>
-                    <h3 class="island-title">Погода</h3>
-                    <p class="island-subtitle">Clima</p>
-                    <div class="island-progress">
-                        <div class="progress-ring">
-                            <svg width="50" height="50">
-                                <circle cx="25" cy="25" r="20" class="ring-bg"></circle>
-                                <circle cx="25" cy="25" r="20" class="ring-fill" style="--progress: 0"></circle>
-                            </svg>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                    </div>
-                    <button class="island-button">Начать</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Island 10 -->
-        <div class="island-wrapper" data-island="10" data-color="#6EC463" style="--delay: 0.9s;">
-            <div class="bridge-line"></div>
-            <div class="island-container">
-                <div class="island-base"></div>
-                <div class="island-card">
-                    <div class="island-glow"></div>
-                    <div class="island-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                            <path d="M16 10a4 4 0 0 1-8 0"></path>
-                        </svg>
-                    </div>
-                    <div class="island-number">10</div>
-                    <h3 class="island-title">Фрукты</h3>
-                    <p class="island-subtitle">Frutas</p>
-                    <div class="island-progress">
-                        <div class="progress-ring">
-                            <svg width="50" height="50">
-                                <circle cx="25" cy="25" r="20" class="ring-bg"></circle>
-                                <circle cx="25" cy="25" r="20" class="ring-fill" style="--progress: 0"></circle>
-                            </svg>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                    </div>
-                    <button class="island-button">Начать</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Water Background -->
-    <div class="water-background">
-        <div class="wave wave-1"></div>
-        <div class="wave wave-2"></div>
-    </div>
-</div>
 
     <!-- Settings Modal -->
     <div class="settings-modal hidden" id="settingsModal">
@@ -383,7 +240,8 @@
             <div class="settings-header">
                 <h2 class="settings-title">⚙️ Настройки</h2>
                 <button class="settings-close" id="settingsClose">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
@@ -391,6 +249,39 @@
             </div>
 
             <div class="settings-body">
+                <!-- Theme Toggle -->
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">🌓</div>
+                        <div>
+                            <div class="setting-label">Тёмная тема</div>
+                            <div class="setting-description">Переключение между светлой и тёмной темой</div>
+                        </div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="themeToggleSwitch">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <!-- Gyroscope Toggle -->
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">📳</div>
+                        <div>
+                            <div class="setting-label">Гироскоп</div>
+                            <div class="setting-description" id="gyroDescription">
+                                Движение элементов при наклоне устройства
+                            </div>
+                        </div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="gyroToggleSwitch" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <!-- Animations Toggle -->
                 <div class="setting-item">
                     <div class="setting-info">
                         <div class="setting-icon">✨</div>
@@ -405,6 +296,7 @@
                     </label>
                 </div>
 
+                <!-- Particles Toggle -->
                 <div class="setting-item">
                     <div class="setting-info">
                         <div class="setting-icon">🎨</div>
@@ -419,6 +311,7 @@
                     </label>
                 </div>
 
+                <!-- Sound Toggle (Disabled) -->
                 <div class="setting-item setting-disabled">
                     <div class="setting-info">
                         <div class="setting-icon">🎵</div>
@@ -442,34 +335,5 @@
 
     <script src="script.js"></script>
 </body>
-</html>setting-icon">🌓</div>
-                        <div>
-                            <div class="setting-label">Тёмная тема</div>
-                            <div class="setting-description">Переключение между светлой и тёмной темой</div>
-                        </div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="themeToggleSwitch">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
 
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <div class="setting-icon">📳</div>
-                        <div>
-                            <div class="setting-label">Гироскоп</div>
-                            <div class="setting-description" id="gyroDescription">
-                                Движение элементов при наклоне устройства
-                            </div>
-                        </div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="gyroToggleSwitch" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <div class="
+</html>

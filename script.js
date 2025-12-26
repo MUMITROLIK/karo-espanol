@@ -8,22 +8,20 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
 // ================================
 let audioContext = null;
 let soundBuffers = {};
-let isAudioReady = false;
 
-// Initialize Audio Context on first user interaction
 function initAudio() {
     if (audioContext) return;
     
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    
-    // Load sounds
-    loadSound('click', 'assets/for_settings_click.mp3');
-    loadSound('fail', 'assets/fail.mp3');
-    
-    console.log('🔊 Audio system initialized');
+    try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        loadSound('click', 'assets/for_settings_click.mp3');
+        loadSound('fail', 'assets/fail.mp3');
+        console.log('🔊 Audio system initialized');
+    } catch (error) {
+        console.error('❌ Audio initialization failed:', error);
+    }
 }
 
-// Load sound into buffer (instant playback)
 async function loadSound(name, url) {
     try {
         const response = await fetch(url);
@@ -31,56 +29,58 @@ async function loadSound(name, url) {
         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
         soundBuffers[name] = audioBuffer;
         console.log(`✅ Sound loaded: ${name}`);
-        isAudioReady = true;
     } catch (error) {
         console.error(`❌ Error loading sound ${name}:`, error);
     }
 }
 
-// Play sound (instant, no delay)
 function playSound(soundName) {
-    if (!audioContext) {
-        initAudio();
-        // Delay first sound slightly to allow initialization
-        setTimeout(() => playSoundImmediate(soundName), 50);
-    } else {
+    try {
+        if (!audioContext) {
+            console.log('🎵 Initializing audio on first use...');
+            initAudio();
+            setTimeout(() => playSoundImmediate(soundName), 150);
+            return;
+        }
         playSoundImmediate(soundName);
+    } catch (error) {
+        console.error('❌ Error playing sound:', error);
     }
 }
 
 function playSoundImmediate(soundName) {
     if (!soundBuffers[soundName]) {
-        console.warn(`Sound ${soundName} not loaded yet`);
+        console.warn(`⚠️ Sound ${soundName} not loaded yet`);
         return;
     }
     
-    const source = audioContext.createBufferSource();
-    source.buffer = soundBuffers[soundName];
-    
-    // Optional: Add volume control
-    const gainNode = audioContext.createGain();
-    gainNode.gain.value = 0.5; // 50% volume
-    
-    source.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    source.start(0);
-    
-    console.log(`🔊 Playing: ${soundName}`);
-}
-
-// Auto-initialize on first touch/click
-document.addEventListener('touchstart', initAudio, { once: true });
-document.addEventListener('click', initAudio, { once: true });
-// Preload sounds
-sounds.click.load();
-sounds.fail.load();
-
-function playSound(soundName) {
-    if (sounds[soundName]) {
-        sounds[soundName].currentTime = 0;
-        sounds[soundName].play().catch(e => console.log('Sound play failed:', e));
+    try {
+        const source = audioContext.createBufferSource();
+        source.buffer = soundBuffers[soundName];
+        
+        const gainNode = audioContext.createGain();
+        gainNode.gain.value = 0.5;
+        
+        source.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        source.start(0);
+        
+        console.log(`🔊 Playing: ${soundName}`);
+    } catch (error) {
+        console.error('❌ Error in playSoundImmediate:', error);
     }
 }
+
+// Initialize audio on first user interaction
+document.addEventListener('click', function initOnClick() {
+    initAudio();
+    document.removeEventListener('click', initOnClick);
+}, { once: true });
+
+document.addEventListener('touchstart', function initOnTouch() {
+    initAudio();
+    document.removeEventListener('touchstart', initOnTouch);
+}, { once: true });
 
 // ================================
 // CONFETTI EFFECT

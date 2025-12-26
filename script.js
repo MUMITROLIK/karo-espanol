@@ -4,6 +4,78 @@
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
 // ================================
+// SOUND EFFECTS
+// ================================
+const sounds = {
+    click: new Audio('assets/for_settings_click.mp3'),
+    fail: new Audio('assets/fail.mp3')
+};
+
+// Preload sounds
+sounds.click.load();
+sounds.fail.load();
+
+function playSound(soundName) {
+    if (sounds[soundName]) {
+        sounds[soundName].currentTime = 0;
+        sounds[soundName].play().catch(e => console.log('Sound play failed:', e));
+    }
+}
+
+// ================================
+// CONFETTI EFFECT
+// ================================
+function createConfetti() {
+    const colors = ['#E1A6AD', '#B8D5B1', '#77679A', '#C9535B', '#E8DDEB'];
+    const confettiCount = 50;
+    
+    for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * window.innerWidth + 'px';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animation = `confettiFall ${2 + Math.random() * 2}s ease-out forwards`;
+        confetti.style.animationDelay = Math.random() * 0.3 + 's';
+        
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 4000);
+    }
+}
+
+// ================================
+// RIPPLE EFFECT
+// ================================
+function createRipple(event, element) {
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    
+    const rect = element.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = event.clientX - rect.left - size / 2;
+    const y = event.clientY - rect.top - size / 2;
+    
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    
+    element.style.position = 'relative';
+    element.style.overflow = 'hidden';
+    element.appendChild(ripple);
+    
+    setTimeout(() => ripple.remove(), 600);
+}
+
+// ================================
+// ICON BOUNCE ANIMATION
+// ================================
+function bounceIcon(icon) {
+    icon.classList.add('clicked');
+    setTimeout(() => icon.classList.remove('clicked'), 500);
+}
+
+
+// ================================
 // SETTINGS MANAGEMENT
 // ================================
 const settings = {
@@ -30,10 +102,135 @@ const settingsClose = document.getElementById('settingsClose');
 const settingsOverlay = document.querySelector('.settings-overlay');
 
 // Toggle switches
-const themeToggleSwitch = document.getElementById('themeToggleSwitch');
-const gyroToggleSwitch = document.getElementById('gyroToggleSwitch');
-const animationsToggleSwitch = document.getElementById('animationsToggleSwitch');
-const particlesToggleSwitch = document.getElementById('particlesToggleSwitch');
+// Theme toggle WITH EFFECTS
+if (themeToggleSwitch) {
+    themeToggleSwitch.addEventListener('change', (e) => {
+        settings.theme = e.target.checked ? 'dark' : 'light';
+        document.body.className = `${settings.theme}-theme`;
+        saveSettings();
+
+        // 🎵 Play sound
+        playSound('click');
+        
+        // 🎊 Confetti effect
+        createConfetti();
+        
+        // ✨ Bounce icon
+        const icon = e.target.closest('.setting-item').querySelector('.setting-icon');
+        bounceIcon(icon);
+
+        if (isMobile && navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+    });
+    
+    // Ripple effect on click
+    themeToggleSwitch.closest('.toggle-switch').addEventListener('click', (e) => {
+        createRipple(e, e.currentTarget);
+    });
+}
+
+// Gyroscope toggle WITH EFFECTS
+if (gyroToggleSwitch) {
+    gyroToggleSwitch.addEventListener('change', (e) => {
+        if (!isMobile && e.target.checked) {
+            e.target.checked = false;
+            settings.gyroscope = false;
+            
+            // 🎵 Play fail sound
+            playSound('fail');
+            
+            // Shake effect
+            const settingItem = e.target.closest('.setting-item');
+            settingItem.style.animation = 'shake 0.5s ease';
+            setTimeout(() => settingItem.style.animation = '', 500);
+            
+            alert('⚠️ Гироскоп доступен только на мобильных устройствах');
+        } else {
+            settings.gyroscope = e.target.checked;
+            saveSettings();
+            
+            // 🎵 Play sound
+            playSound('click');
+            
+            // ✨ Bounce icon
+            const icon = e.target.closest('.setting-item').querySelector('.setting-icon');
+            bounceIcon(icon);
+        }
+
+        if (isMobile && navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+    });
+    
+    // Ripple effect
+    gyroToggleSwitch.closest('.toggle-switch').addEventListener('click', (e) => {
+        createRipple(e, e.currentTarget);
+    });
+}
+
+// Animations toggle WITH EFFECTS
+if (animationsToggleSwitch) {
+    animationsToggleSwitch.addEventListener('change', (e) => {
+        settings.animations = e.target.checked;
+        saveSettings();
+
+        if (!settings.animations) {
+            document.body.classList.add('no-animations');
+        } else {
+            document.body.classList.remove('no-animations');
+        }
+        
+        // 🎵 Play sound
+        playSound('click');
+        
+        // ✨ Bounce icon
+        const icon = e.target.closest('.setting-item').querySelector('.setting-icon');
+        bounceIcon(icon);
+
+        if (isMobile && navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+    });
+    
+    // Ripple effect
+    animationsToggleSwitch.closest('.toggle-switch').addEventListener('click', (e) => {
+        createRipple(e, e.currentTarget);
+    });
+}
+
+// Particles toggle WITH EFFECTS
+if (particlesToggleSwitch) {
+    particlesToggleSwitch.addEventListener('change', (e) => {
+        settings.particles = e.target.checked;
+        saveSettings();
+
+        const particlesContainer = document.getElementById('particlesContainer');
+        if (particlesContainer) {
+            if (settings.particles) {
+                particlesContainer.style.display = 'block';
+            } else {
+                particlesContainer.style.display = 'none';
+            }
+        }
+        
+        // 🎵 Play sound
+        playSound('click');
+        
+        // ✨ Bounce icon
+        const icon = e.target.closest('.setting-item').querySelector('.setting-icon');
+        bounceIcon(icon);
+
+        if (isMobile && navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+    });
+    
+    // Ripple effect
+    particlesToggleSwitch.closest('.toggle-switch').addEventListener('click', (e) => {
+        createRipple(e, e.currentTarget);
+    });
+}
 
 // Initialize settings UI (with safety checks)
 if (themeToggleSwitch) themeToggleSwitch.checked = settings.theme === 'dark';

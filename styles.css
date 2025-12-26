@@ -1,0 +1,716 @@
+/* ================================
+   RESET & BASE
+================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    min-height: 100vh;
+    transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ================================
+   THEME VARIABLES
+================================ */
+.light-theme {
+    --bg-primary: #E6D9C1;
+    --bg-secondary: #E9E0D2;
+    --bg-card: #E9E0D2;
+    --bg-card-hover: #E6ECF5;
+    --text-primary: #001D51;
+    --text-secondary: #543E64;
+    --accent: #543E64;
+    --accent-secondary: #C6866E;
+    --glow: #E8DDEB;
+    --border: #C5C7C4;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme {
+    --bg-primary: #001D51;
+    --bg-secondary: #1F3855;
+    --bg-card: #1F3855;
+    --bg-card-hover: #20214F;
+    --text-primary: #E6ECF5;
+    --text-secondary: #E8DDEB;
+    --accent: #E8DDEB;
+    --accent-secondary: #77679A;
+    --glow: #B8D5B1;
+    --border: #20214F;
+    --shadow: rgba(0, 0, 0, 0.3);
+}
+
+body.light-theme {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    color: var(--text-primary);
+}
+
+body.dark-theme {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    color: var(--text-primary);
+}
+
+/* ================================
+   FLOATING PARTICLES
+================================ */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--glow);
+    opacity: 0.4;
+    filter: blur(1px);
+    animation: float var(--duration) infinite ease-in-out;
+    animation-delay: var(--delay);
+}
+
+@keyframes float {
+    0%, 100% { 
+        transform: translate(0, 0) scale(1); 
+    }
+    33% { 
+        transform: translate(30px, -30px) scale(1.1); 
+    }
+    66% { 
+        transform: translate(-20px, 20px) scale(0.9); 
+    }
+}
+
+/* ================================
+   MAIN CONTAINER
+================================ */
+.main-container {
+    position: relative;
+    z-index: 10;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* ================================
+   HEADER
+================================ */
+.header {
+    position: sticky;
+    top: 0;
+    background: rgba(var(--bg-card), 0.85);
+    backdrop-filter: blur(30px) saturate(180%);
+    border-bottom: 2px solid rgba(var(--accent), 0.25);
+    padding: 1.2rem 2rem;
+    z-index: 100;
+    box-shadow: 0 8px 32px var(--shadow), 0 0 80px rgba(var(--glow), 0.1);
+    transition: all 0.3s ease;
+}
+
+.light-theme .header {
+    background: rgba(233, 224, 210, 0.85);
+}
+
+.dark-theme .header {
+    background: rgba(31, 56, 85, 0.85);
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    animation: slideInLeft 0.8s ease-out;
+}
+
+.logo-icon-wrapper {
+    background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+    padding: 0.6rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(var(--accent), 0.4), 0 0 40px rgba(var(--accent), 0.2);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.logo-text {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent-secondary), var(--glow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -1px;
+}
+
+.theme-toggle {
+    background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 32px rgba(var(--accent), 0.4), 0 0 60px rgba(var(--accent), 0.3);
+    animation: slideInRight 0.8s ease-out;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.15) rotate(180deg);
+    box-shadow: 0 12px 48px rgba(var(--accent), 0.6), 0 0 80px rgba(var(--accent), 0.4);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95) rotate(180deg);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ================================
+   MAIN CONTENT
+================================ */
+.main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+}
+
+/* ================================
+   MODULES
+================================ */
+.module {
+    margin-bottom: 4rem;
+    animation: fadeInUp 0.8s ease-out backwards;
+}
+
+.module:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.module-card {
+    background: rgba(var(--bg-card), 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 32px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 60px var(--shadow), inset 0 0 80px rgba(var(--glow), 0.05);
+    border: 2px solid rgba(var(--accent), 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.light-theme .module-card {
+    background: rgba(233, 224, 210, 0.8);
+}
+
+.dark-theme .module-card {
+    background: rgba(31, 56, 85, 0.8);
+}
+
+.decorative-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200%;
+    background: radial-gradient(circle at 50% 0%, rgba(var(--glow), 0.15), transparent 70%);
+    pointer-events: none;
+    animation: rotate 20s linear infinite;
+}
+
+.light-theme .decorative-gradient {
+    background: radial-gradient(circle at 50% 0%, rgba(232, 221, 235, 0.15), transparent 70%);
+}
+
+.dark-theme .decorative-gradient {
+    background: radial-gradient(circle at 50% 0%, rgba(184, 213, 177, 0.15), transparent 70%);
+}
+
+.module-header {
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.module-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.module-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.7;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+/* ================================
+   LESSONS GRID
+================================ */
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    position: relative;
+}
+
+/* ================================
+   LESSON CARDS
+================================ */
+.lesson-card {
+    background: linear-gradient(135deg, rgba(var(--bg-card-hover), 0.5), rgba(var(--bg-card-hover), 0.3));
+    border-radius: 24px;
+    padding: 2.5rem;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.lesson-card:nth-child(1) { animation-delay: 0s; }
+.lesson-card:nth-child(2) { animation-delay: 0.1s; }
+.lesson-card:nth-child(3) { animation-delay: 0.2s; }
+
+.light-theme .lesson-card {
+    background: linear-gradient(135deg, rgba(230, 236, 245, 0.5), rgba(230, 236, 245, 0.3));
+}
+
+.dark-theme .lesson-card {
+    background: linear-gradient(135deg, rgba(32, 33, 79, 0.5), rgba(32, 33, 79, 0.3));
+}
+
+.lesson-card:hover {
+    transform: perspective(1000px) translateY(-12px) scale(1.03);
+}
+
+/* Shimmer Effect */
+.shimmer-effect {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: rotate(45deg);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.lesson-card:hover .shimmer-effect {
+    opacity: 1;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: rotate(45deg) translateX(-100%); }
+    100% { transform: rotate(45deg) translateX(100%); }
+}
+
+/* Lesson Icon */
+.lesson-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.lesson-card:hover .lesson-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.icon-glow {
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(circle, currentColor, transparent);
+    filter: blur(20px);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.lesson-card:hover .icon-glow {
+    opacity: 0.6;
+}
+
+.lesson-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.lesson-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.7;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+}
+
+/* Progress Bar */
+.lesson-progress {
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 10px;
+    background: rgba(var(--border), 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 20px currentColor;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+.progress-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    min-width: 45px;
+}
+
+/* Start Button */
+.start-btn {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    color: white;
+}
+
+.start-btn span {
+    position: relative;
+    z-index: 1;
+}
+
+.button-shine {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.start-btn:hover .button-shine {
+    transform: translateX(100%);
+}
+
+.start-btn:hover {
+    transform: scale(1.05);
+}
+
+.start-btn:active {
+    transform: scale(0.98);
+}
+
+/* ================================
+   ANIMATIONS
+================================ */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(60px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        transform: scale(1); 
+    }
+    50% { 
+        transform: scale(1.05); 
+    }
+}
+
+@keyframes rotate {
+    from { 
+        transform: rotate(0deg); 
+    }
+    to { 
+        transform: rotate(360deg); 
+    }
+}
+
+/* ================================
+   SCROLLBAR
+================================ */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #77679A, #543E64);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #E8DDEB, #77679A);
+}
+
+/* ================================
+   RESPONSIVE - MOBILE OPTIMIZED
+================================ */
+@media (max-width: 768px) {
+    /* Header - Keep it beautiful */
+    .header {
+        padding: 1rem 1.2rem;
+        backdrop-filter: blur(20px) saturate(180%);
+    }
+    
+    .logo-text {
+        font-size: 1.5rem;
+    }
+    
+    .theme-toggle {
+        width: 52px;
+        height: 52px;
+    }
+    
+    /* Main Content - Keep parallax smooth */
+    .main-content {
+        padding: 2.5rem 1.2rem 4rem;
+        will-change: transform;
+    }
+    
+    .module {
+        margin-bottom: 3rem;
+    }
+    
+    .module-card {
+        padding: 2rem;
+        border-radius: 28px;
+        backdrop-filter: blur(20px);
+    }
+    
+    .module-title {
+        font-size: 1.7rem;
+    }
+    
+    .module-subtitle {
+        font-size: 1.05rem;
+    }
+    
+    /* Lessons Grid - Single Column but beautiful */
+    .lessons-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+    }
+    
+    /* Lesson Cards - Touch optimized but still beautiful */
+    .lesson-card {
+        padding: 2.2rem;
+        border-radius: 24px;
+        will-change: transform;
+        /* Touch feedback */
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+    }
+    
+    .lesson-card:active {
+        transform: scale(0.97) !important;
+        transition: transform 0.1s ease !important;
+    }
+    
+    /* Keep icons beautiful */
+    .lesson-icon {
+        width: 75px;
+        height: 75px;
+        margin-bottom: 1.8rem;
+    }
+    
+    .lesson-title {
+        font-size: 1.4rem;
+    }
+    
+    .lesson-subtitle {
+        font-size: 1.05rem;
+    }
+    
+    /* Touch-friendly buttons */
+    .start-btn {
+        padding: 1.3rem;
+        font-size: 1.15rem;
+        border-radius: 18px;
+        /* Improve touch response */
+        touch-action: manipulation;
+    }
+    
+    /* Keep some particles for atmosphere */
+    .particle {
+        opacity: 0.3;
+    }
+    
+    /* Keep animations smooth on mobile */
+    .decorative-gradient {
+        animation: rotate 30s linear infinite;
+    }
+    
+    /* Optimize scroll performance */
+    .main-container {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Small phones - Still beautiful */
+@media (max-width: 480px) {
+    .header {
+        padding: 0.9rem 1rem;
+    }
+    
+    .logo {
+        gap: 0.8rem;
+    }
+    
+    .logo-icon-wrapper {
+        padding: 0.55rem;
+        border-radius: 14px;
+    }
+    
+    .logo-icon {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .logo-text {
+        font-size: 1.3rem;
+    }
+    
+    .theme-toggle {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .main-content {
+        padding: 2rem 1rem 3rem;
+    }
+    
+    .module-card {
+        padding: 1.6rem;
+        border-radius: 24px;
+    }
+    
+    .module-title {
+        font-size: 1.5rem;
+    }
+    
+    .lesson-card {
+        padding: 1.8rem;
+        border-radius: 22px;
+    }
+    
+    .lesson-icon {
+        width: 68px;
+        height: 68px;
+    }
+    
+    .lesson-title {
+        font-size: 1.3rem;
+    }
+    
+    .start-btn {
+        padding: 1.15rem;
+        font-size: 1.05rem;
+    }
+}
+
+/* Low power mode - reduce animations */
+.low-power-mode .particle {
+    animation: none !important;
+}
+
+.low-power-mode .decorative-gradient {
+    animation: none !important;
+}
+
+.low-power-mode .shimmer-effect {
+    animation: none !important;
+}

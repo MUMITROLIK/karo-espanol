@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок - Karo Español</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Lesson-specific styles */
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .lesson-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-4px);
+            border-color: var(--accent);
+        }
+
+        .lesson-progress-header {
+            flex: 1;
+            background: var(--bg-card);
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            border: 2px solid var(--border);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .streak-counter {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #C9535B;
+        }
+
+        .lesson-progress-bar {
+            height: 12px;
+            background: var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .lesson-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #C9535B, #77679A);
+            border-radius: 12px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Question Card */
+        .question-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 12px 40px var(--shadow);
+            border: 2px solid var(--border);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .question-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .question-hint {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        /* Answer Options */
+        .answer-options {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .answer-btn {
+            padding: 1.25rem 2rem;
+            background: var(--bg-card-hover);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: left;
+        }
+
+        .answer-btn:hover {
+            transform: translateX(8px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 24px var(--shadow);
+        }
+
+        .answer-btn.correct {
+            background: linear-gradient(135deg, #B8D5B1, #6EC463);
+            border-color: #6EC463;
+            color: white;
+            animation: correctPulse 0.5s ease;
+        }
+
+        .answer-btn.wrong {
+            background: linear-gradient(135deg, #C9535B, #E74C3C);
+            border-color: #E74C3C;
+            color: white;
+            animation: wrongShake 0.5s ease;
+        }
+
+        /* Next Button */
+        .next-btn-container {
+            text-align: center;
+        }
+
+        .next-btn {
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, #77679A, #543E64);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(119, 103, 154, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .next-btn.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .next-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 32px rgba(119, 103, 154, 0.4);
+        }
+
+        /* Animations */
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .lesson-header {
+                flex-direction: column;
+            }
+
+            .lesson-progress-header {
+                width: 100%;
+            }
+
+            .question-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .question-text {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <h1 class="logo-text">Karo Español</h1>
+            </div>
+            
+            <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
+                <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Lesson Content -->
+    <div class="lesson-container">
+        <div class="lesson-header">
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Назад
+            </button>
+
+            <div class="lesson-progress-header">
+                <div class="progress-info">
+                    <span class="progress-label" id="progressLabel">Вопрос 1 из 10</span>
+                    <div class="streak-counter">
+                        <span>🔥</span>
+                        <span id="streakCount">0</span>
+                    </div>
+                </div>
+                <div class="lesson-progress-bar">
+                    <div class="lesson-progress-fill" id="lessonProgressFill" style="width: 10%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="question-card">
+            <h2 class="question-text" id="questionText">Как сказать "Привет" по-испански?</h2>
+            <p class="question-hint" id="questionHint">Выберите правильный ответ</p>
+
+            <div class="answer-options" id="answerOptions">
+                <button class="answer-btn" data-answer="1">Hola</button>
+                <button class="answer-btn" data-answer="2">Adiós</button>
+                <button class="answer-btn" data-answer="3">Gracias</button>
+                <button class="answer-btn" data-answer="4">Por favor</button>
+            </div>
+
+            <div class="next-btn-container">
+                <button class="next-btn" id="nextBtn">Продолжить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Karo Popup -->
+    <div class="karo-popup hidden" id="karoPopup">
+        <div class="karo-content">
+            <div class="karo-character">
+                🐱
+            </div>
+            <h3 class="karo-title">¡Genial!</h3>
+            <p class="karo-message" id="karoMessage">5 правильных ответов подряд! Ты молодец! 🎉</p>
+            <button class="karo-close" id="karoClose">Спасибо, Каро!</button>
+        </div>
+    </div>
+
+    <script src="lesson-script.js"></script>
+</body>
+</html>

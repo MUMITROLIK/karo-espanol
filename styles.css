@@ -815,6 +815,11 @@ body.dark-theme {
     background: linear-gradient(180deg, #E8DDEB, #77679A);
 }
 
+/* Special color for lesson 6 - light icon */
+.lesson-card[data-lesson="6"] .lesson-icon svg {
+    stroke: #543E64 !important;
+}
+
 /* ================================
    RESPONSIVE - MOBILE OPTIMIZED
 ================================ */

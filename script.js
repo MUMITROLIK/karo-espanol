@@ -4,40 +4,135 @@
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
 // ================================
-// THEME TOGGLE
+// SETTINGS MANAGEMENT
 // ================================
-const themeToggle = document.getElementById('themeToggle');
-const body = document.body;
-const sunIcon = document.querySelector('.sun-icon');
-const moonIcon = document.querySelector('.moon-icon');
+const settings = {
+    theme: localStorage.getItem('theme') || 'light',
+    gyroscope: localStorage.getItem('gyroscope') !== 'false',
+    animations: localStorage.getItem('animations') !== 'false',
+    particles: localStorage.getItem('particles') !== 'false',
+    sound: false
+};
 
-// Load saved theme
-const savedTheme = localStorage.getItem('theme') || 'light';
-body.className = `${savedTheme}-theme`;
-updateThemeIcons(savedTheme);
+function saveSettings() {
+    localStorage.setItem('theme', settings.theme);
+    localStorage.setItem('gyroscope', settings.gyroscope);
+    localStorage.setItem('animations', settings.animations);
+    localStorage.setItem('particles', settings.particles);
+}
 
-themeToggle.addEventListener('click', () => {
-    const currentTheme = body.classList.contains('light-theme') ? 'light' : 'dark';
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
-    body.className = `${newTheme}-theme`;
-    localStorage.setItem('theme', newTheme);
-    updateThemeIcons(newTheme);
-    
-    // Haptic feedback on mobile
+// ================================
+// SETTINGS MODAL
+// ================================
+const settingsToggle = document.getElementById('settingsToggle');
+const settingsModal = document.getElementById('settingsModal');
+const settingsClose = document.getElementById('settingsClose');
+const settingsOverlay = document.querySelector('.settings-overlay');
+
+// Toggle switches
+const themeToggleSwitch = document.getElementById('themeToggleSwitch');
+const gyroToggleSwitch = document.getElementById('gyroToggleSwitch');
+const animationsToggleSwitch = document.getElementById('animationsToggleSwitch');
+const particlesToggleSwitch = document.getElementById('particlesToggleSwitch');
+
+// Initialize settings UI
+themeToggleSwitch.checked = settings.theme === 'dark';
+gyroToggleSwitch.checked = settings.gyroscope;
+animationsToggleSwitch.checked = settings.animations;
+particlesToggleSwitch.checked = settings.particles;
+
+// Apply initial theme
+document.body.className = `${settings.theme}-theme`;
+
+// Update gyro description for desktop
+if (!isMobile) {
+    document.getElementById('gyroDescription').textContent = '⚠️ Доступно только на мобильных устройствах';
+}
+
+// Open settings
+settingsToggle.addEventListener('click', () => {
+    settingsModal.classList.remove('hidden');
     if (isMobile && navigator.vibrate) {
         navigator.vibrate(10);
     }
 });
 
-function updateThemeIcons(theme) {
-    if (theme === 'dark') {
-        sunIcon.classList.add('hidden');
-        moonIcon.classList.remove('hidden');
-    } else {
-        sunIcon.classList.remove('hidden');
-        moonIcon.classList.add('hidden');
+// Close settings
+function closeSettings() {
+    settingsModal.classList.add('hidden');
+}
+
+settingsClose.addEventListener('click', closeSettings);
+settingsOverlay.addEventListener('click', closeSettings);
+
+// Theme toggle
+themeToggleSwitch.addEventListener('change', (e) => {
+    settings.theme = e.target.checked ? 'dark' : 'light';
+    document.body.className = `${settings.theme}-theme`;
+    saveSettings();
+    
+    if (isMobile && navigator.vibrate) {
+        navigator.vibrate(10);
     }
+});
+
+// Gyroscope toggle
+gyroToggleSwitch.addEventListener('change', (e) => {
+    settings.gyroscope = e.target.checked;
+    saveSettings();
+    
+    if (!isMobile) {
+        // Show message on desktop
+        e.target.checked = false;
+        settings.gyroscope = false;
+        alert('⚠️ Гироскоп доступен только на мобильных устройствах');
+    }
+    
+    if (isMobile && navigator.vibrate) {
+        navigator.vibrate(10);
+    }
+});
+
+// Animations toggle
+animationsToggleSwitch.addEventListener('change', (e) => {
+    settings.animations = e.target.checked;
+    saveSettings();
+    
+    if (!settings.animations) {
+        document.body.classList.add('no-animations');
+    } else {
+        document.body.classList.remove('no-animations');
+    }
+    
+    if (isMobile && navigator.vibrate) {
+        navigator.vibrate(10);
+    }
+});
+
+// Particles toggle
+particlesToggleSwitch.addEventListener('change', (e) => {
+    settings.particles = e.target.checked;
+    saveSettings();
+    
+    const particlesContainer = document.getElementById('particlesContainer');
+    if (settings.particles) {
+        particlesContainer.style.display = 'block';
+    } else {
+        particlesContainer.style.display = 'none';
+    }
+    
+    if (isMobile && navigator.vibrate) {
+        navigator.vibrate(10);
+    }
+});
+
+// Apply initial settings
+if (!settings.animations) {
+    document.body.classList.add('no-animations');
+}
+
+if (!settings.particles) {
+    document.getElementById('particlesContainer').style.display = 'none';
 }
 
 // ================================
@@ -95,13 +190,16 @@ if (!isMobile) {
         let tiltY = 0;
         
         window.addEventListener('deviceorientation', (e) => {
+            // Check if gyroscope is enabled in settings
+            if (!settings.gyroscope) return;
+            
             // Get device tilt
-            const beta = e.beta || 0;  // -180 to 180 (front-back tilt)
-            const gamma = e.gamma || 0; // -90 to 90 (left-right tilt)
+            const beta = e.beta || 0;
+            const gamma = e.gamma || 0;
             
             // Normalize and limit range
             tiltX = Math.max(-15, Math.min(15, gamma)) * 0.5;
-            tiltY = Math.max(-15, Math.min(15, beta - 45)) * 0.5; // Subtract 45 for natural position
+            tiltY = Math.max(-15, Math.min(15, beta - 45)) * 0.5;
             
             // Apply smooth parallax
             requestAnimationFrame(() => {
@@ -118,7 +216,6 @@ if (!isMobile) {
         
         // Request permission for iOS 13+
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-            // Will request permission on first interaction
             document.addEventListener('click', function requestPermission() {
                 DeviceOrientationEvent.requestPermission()
                     .then(permissionState => {
@@ -355,5 +452,6 @@ if ('getBattery' in navigator) {
 // EXPORTS
 // ================================
 window.startLesson = startLesson;
+window.settings = settings;
 
-console.log(`🎮 Karo Español loaded | Device: ${isMobile ? 'Mobile' : 'Desktop'} | Theme: ${savedTheme}`);
+console.log(`🎮 Karo Español loaded | Device: ${isMobile ? 'Mobile' : 'Desktop'} | Theme: ${settings.theme}`);

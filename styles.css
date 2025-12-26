@@ -186,6 +186,285 @@ body.dark-theme {
     transform: scale(0.95) rotate(180deg);
 }
 
+.settings-toggle {
+    background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 32px rgba(var(--accent), 0.4), 0 0 60px rgba(var(--accent), 0.3);
+    animation: slideInRight 0.8s ease-out;
+}
+
+.settings-toggle:hover {
+    transform: scale(1.15) rotate(90deg);
+    box-shadow: 0 12px 48px rgba(var(--accent), 0.6), 0 0 80px rgba(var(--accent), 0.4);
+}
+
+.settings-toggle:active {
+    transform: scale(0.95) rotate(90deg);
+}
+
+/* ================================
+   SETTINGS MODAL
+================================ */
+.settings-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.settings-modal.hidden {
+    display: none;
+}
+
+.settings-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease;
+}
+
+.settings-content {
+    position: relative;
+    background: var(--bg-card);
+    border-radius: 32px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3), 0 0 100px rgba(var(--accent), 0.2);
+    border: 2px solid rgba(var(--accent), 0.3);
+    animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.light-theme .settings-content {
+    background: rgba(233, 224, 210, 0.95);
+    backdrop-filter: blur(30px);
+}
+
+.dark-theme .settings-content {
+    background: rgba(31, 56, 85, 0.95);
+    backdrop-filter: blur(30px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Settings Header */
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2rem 1.5rem;
+    border-bottom: 2px solid rgba(var(--border), 0.3);
+}
+
+.settings-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.settings-close {
+    background: rgba(var(--accent), 0.1);
+    border: 2px solid rgba(var(--accent), 0.2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-primary);
+}
+
+.settings-close:hover {
+    background: rgba(var(--accent), 0.2);
+    transform: rotate(90deg);
+}
+
+/* Settings Body */
+.settings-body {
+    padding: 1.5rem 2rem;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.settings-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.settings-body::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 10px;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background: rgba(var(--bg-card-hover), 0.5);
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.light-theme .setting-item {
+    background: rgba(230, 236, 245, 0.5);
+}
+
+.dark-theme .setting-item {
+    background: rgba(32, 33, 79, 0.5);
+}
+
+.setting-item:hover {
+    border-color: rgba(var(--accent), 0.3);
+    transform: translateX(4px);
+}
+
+.setting-item.setting-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.setting-item.setting-disabled:hover {
+    transform: none;
+    border-color: transparent;
+}
+
+.setting-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.setting-icon {
+    font-size: 2rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+    border-radius: 14px;
+    flex-shrink: 0;
+    box-shadow: 0 6px 20px rgba(var(--accent), 0.3);
+}
+
+.setting-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+}
+
+.setting-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    opacity: 0.8;
+    line-height: 1.4;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 56px;
+    height: 30px;
+    flex-shrink: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: rgba(var(--border), 0.5);
+    border-radius: 30px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 24px;
+    width: 24px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+    box-shadow: 0 0 20px rgba(var(--accent), 0.5);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+}
+
+.toggle-switch input:disabled + .toggle-slider {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Settings Footer */
+.settings-footer {
+    padding: 1.5rem 2rem 2rem;
+    border-top: 2px solid rgba(var(--border), 0.3);
+    text-align: center;
+}
+
+.settings-version {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    opacity: 0.6;
+    margin: 0;
+}
+
 .hidden {
     display: none !important;
 }
@@ -712,5 +991,20 @@ body.dark-theme {
 }
 
 .low-power-mode .shimmer-effect {
+    animation: none !important;
+}
+
+/* No animations mode */
+.no-animations * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+}
+
+.no-animations .particle {
+    display: none !important;
+}
+
+.no-animations .decorative-gradient {
     animation: none !important;
 }
